@@ -243,11 +243,12 @@ FakesAssemblies/
 _Pvt_Extensions
 
 # Paket dependency manager
-.paket/paket.exe
+.paket/
 paket-files/
 
 # FAKE - F# Make
 .fake/
+*.fsx.lock
 
 # JetBrains Rider
 .idea/
@@ -260,6 +261,6 @@ paket-files/
 __pycache__/
 *.pyc
 
-/BCC.Web/wwwroot/js/*.min.js
-/BCC.Web/wwwroot/css/*.min.css
-/BCC.Web/Properties/PublishProfiles/*.pubxml
+reports/
+SharedAssemblyInfo.cs
+nuget/*
