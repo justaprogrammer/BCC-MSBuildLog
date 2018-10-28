@@ -22,8 +22,8 @@ deploy:
     appveyor_repo_tag: true
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: BCC-Submission v$(GitVersion_SemVer)
-  description: 'BCC-Submission v$(GitVersion_SemVer)'
+  release: BCC-MSBuild v$(GitVersion_SemVer)
+  description: 'BCC-MSBuild v$(GitVersion_SemVer)'
   auth_token:
     secure: 8wLI8hf2W3L/V5BUk/tdGDs+gWryh9Y8HxCQk9iq48xV/n+hxShodChwuHAm2DsS
   artifact: /.*\.nupkg/
