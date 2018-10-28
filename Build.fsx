@@ -67,7 +67,7 @@ Target.create "Package" (fun _ ->
     !! "Package.nuspec"
     |> Shell.copy "nuget"
 
-    Shell.copyRecursive "src/BCC.MSBuild/bin/Release" "nuget/tools" false
+    Shell.copyRecursive "src/BCC.MSBuildLog/bin/Release" "nuget/tools" false
     |> ignore
 
     let version = 
@@ -84,7 +84,7 @@ Target.create "Package" (fun _ ->
 )
 
 Target.create "Coverage" (fun _ ->
-    List.allPairs ["BCC.MSBuild.Tests"] ["net471" ; "netcoreapp2.1"]
+    List.allPairs ["BCC.MSBuildLog.Tests"] ["net471" ; "netcoreapp2.1"]
     |> Seq.iter (fun (proj, framework) -> 
             let dllPath = sprintf "src\\%s\\bin\\Release\\%s\\%s.dll" proj framework proj
             let projectPath = sprintf "src\\%s\\%s.csproj" proj proj
