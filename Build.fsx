@@ -27,7 +27,7 @@ Target.create "Clean" (fun _ ->
                   Properties = ["Configuration", "Release"]
                   Verbosity = Some MSBuildVerbosity.Minimal })
 
-  !! "src/BCC.Submission.sln"
+  !! "src/BCC.MSBuild.sln"
   |> MSBuild.run configuration null "Clean" list.Empty
   |> Trace.logItems "Clean-Output: "
 )
@@ -41,7 +41,7 @@ Target.create "Build" (fun _ ->
                                     DoRestore = true
                                     Verbosity = Some MSBuildVerbosity.Minimal })
 
-  !! "src/BCC.Submission.sln"
+  !! "src/BCC.MSBuild.sln"
   |> MSBuild.runRelease configuration null "Build"
   |> Trace.logItems "AppBuild-Output: "
 )
@@ -67,7 +67,7 @@ Target.create "Package" (fun _ ->
     !! "Package.nuspec"
     |> Shell.copy "nuget"
 
-    Shell.copyRecursive "src/BCC.Submission/bin/Release" "nuget/tools" false
+    Shell.copyRecursive "src/BCC.MSBuild/bin/Release" "nuget/tools" false
     |> ignore
 
     let version = 
@@ -84,7 +84,7 @@ Target.create "Package" (fun _ ->
 )
 
 Target.create "Coverage" (fun _ ->
-    List.allPairs ["BCC.Submission.Tests"] ["net471" ; "netcoreapp2.1"]
+    List.allPairs ["BCC.MSBuild.Tests"] ["net471" ; "netcoreapp2.1"]
     |> Seq.iter (fun (proj, framework) -> 
             let dllPath = sprintf "src\\%s\\bin\\Release\\%s\\%s.dll" proj framework proj
             let projectPath = sprintf "src\\%s\\%s.csproj" proj proj
