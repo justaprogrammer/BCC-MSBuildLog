@@ -59,6 +59,14 @@ Target.create "Test" (fun _ ->
 
     Trace.publish ImportData.BuildArtifact testHtmlReport
     Trace.publish ImportData.BuildArtifact testXmlReport
+    
+    DotNet.test (fun t -> {t with
+                             Configuration = DotNet.BuildConfiguration.Release
+                             Logger = Some "trx;LogFileName=results.trx"
+                             ResultsDirectory = Some "../../reports"})
+                "src/BCC.MSBuildLog.Tests/BCC.MSBuildLog.Tests.csproj"
+
+    Trace.publish ImportData.BuildArtifact "reports/results.trx"
 )
 
 Target.create "Package" (fun _ ->

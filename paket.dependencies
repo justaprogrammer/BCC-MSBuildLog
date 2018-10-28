@@ -8,6 +8,7 @@ group FakeBuild
 
   nuget Fake.Core.Target 
   nuget Fake.BuildServer.AppVeyor
+  nuget Fake.DotNet.Cli
   nuget Fake.DotNet.MSBuild
   nuget Fake.DotNet.NuGet
   nuget Fake.DotNet.Testing.XUnit2
