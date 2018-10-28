@@ -7,6 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.MSBuildLog", "BCC.MSBui
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.MSBuildLog.Tests", "BCC.MSBuildLog.Tests\BCC.MSBuildLog.Tests.csproj", "{55EB814D-E978-4EDA-A22C-353ED22FB2FD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FFB46A17-BCAF-4CC2-B19D-5870CA69E90D}"
+	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
+		..\Build.fsx = ..\Build.fsx
+		..\codecov.yml = ..\codecov.yml
+		..\Package.nuspec = ..\Package.nuspec
+		..\paket.dependencies = ..\paket.dependencies
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -27,7 +27,7 @@ Target.create "Clean" (fun _ ->
                   Properties = ["Configuration", "Release"]
                   Verbosity = Some MSBuildVerbosity.Minimal })
 
-  !! "src/BCC.MSBuild.sln"
+  !! "src/BCC.MSBuildLog.sln"
   |> MSBuild.run configuration null "Clean" list.Empty
   |> Trace.logItems "Clean-Output: "
 )
@@ -41,7 +41,7 @@ Target.create "Build" (fun _ ->
                                     DoRestore = true
                                     Verbosity = Some MSBuildVerbosity.Minimal })
 
-  !! "src/BCC.MSBuild.sln"
+  !! "src/BCC.MSBuildLog.sln"
   |> MSBuild.runRelease configuration null "Build"
   |> Trace.logItems "AppBuild-Output: "
 )
