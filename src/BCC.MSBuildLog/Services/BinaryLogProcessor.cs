@@ -93,6 +93,8 @@ namespace BCC.MSBuildLog.Services
                     }
                 }
 
+                message = $"{buildCode}: {message}";
+
                 ReportAs reportAs = ReportAs.AsIs;
                 if (ruleDictionary?.TryGetValue(buildCode, out reportAs) ?? false)
                 {
