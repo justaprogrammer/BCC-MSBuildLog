@@ -2,13 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
-
-    <IsPackable>false</IsPackable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
-    <PackageReference Include="BCC-Core" Version="0.1.2-beta" />
+    <PackageReference Include="BCC-Core" Version="0.1.3" />
     <PackageReference Include="Bogus" Version="24.3.0" />
     <PackageReference Include="FluentAssertions" Version="5.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
@@ -23,6 +22,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BCC.MSBuildLog\BCC.MSBuildLog.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" Condition="Exists('..\common\SharedAssemblyInfo.cs')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

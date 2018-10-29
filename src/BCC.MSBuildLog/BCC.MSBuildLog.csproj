@@ -3,15 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCC-Core" Version="0.1.2-beta" />
+    <PackageReference Include="BCC-Core" Version="0.1.3" />
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" Condition="'$(TargetFramework)' == 'net471'" />
     <PackageReference Include="FluentCommandLineParser" Version="1.5.0.20-commands" />
     <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0-preview3-35497" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.256" />
     <PackageReference Include="Microsoft.Build" Version="15.8.166" />
     <PackageReference Include="Microsoft.Build.Framework" Version="15.8.166" />
@@ -30,6 +32,10 @@
     <Reference Include="StructuredLogger">
       <HintPath>..\..\lib\StructuredLogger.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" Condition="Exists('..\common\SharedAssemblyInfo.cs')" />
   </ItemGroup>
 
   <Target Name="CreateAliasForStructuredLogger" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
