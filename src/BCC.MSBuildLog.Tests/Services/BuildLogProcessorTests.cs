@@ -217,7 +217,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
                     CheckWarningLevel.Warning, "CS0219",
-                    "The variable 'hello' is assigned but its value is never used",
+                    "CS0219: The variable 'hello' is assigned but its value is never used",
                     13, 13)
             };
 
@@ -241,7 +241,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
                     CheckWarningLevel.Failure, "CS1002",
-                    "; expected",
+                    "CS1002: ; expected",
                     13, 13)
             };
 
@@ -265,7 +265,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
                     CheckWarningLevel.Warning, "CA2213",
-                    "Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.",
+                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.",
                     20, 20)
             };
 
