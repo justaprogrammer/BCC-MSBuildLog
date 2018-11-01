@@ -177,10 +177,7 @@ namespace BCC.MSBuildLog.Services
 
             return new Annotation(relativePath, lineNumber,
                 endLineNumber == 0 ? lineNumber : endLineNumber, checkWarningLevel,
-                message)
-            {
-                Title = title
-            };
+                message);
         }
 
         private string GetRelativePath(string filespec, string folder)
