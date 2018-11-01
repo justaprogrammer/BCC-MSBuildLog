@@ -77,7 +77,7 @@ namespace BCC.MSBuildLog.Services
             var contents = JsonConvert.SerializeObject(new CreateCheckRun
             {
                 Annotations = logData.Annotations,
-                Success = !hasAnyFailure,
+                Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
                 StartedAt = dateTimeOffset,
                 CompletedAt = DateTimeOffset.Now,
                 Summary = string.Empty,

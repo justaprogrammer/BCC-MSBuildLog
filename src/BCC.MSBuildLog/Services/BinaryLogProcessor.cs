@@ -175,10 +175,9 @@ namespace BCC.MSBuildLog.Services
 
             var relativePath = GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
 
-            return new Annotation(relativePath, checkWarningLevel,
-                title, message,
-                lineNumber,
-                endLineNumber == 0 ? lineNumber : endLineNumber);
+            return new Annotation(relativePath, lineNumber,
+                endLineNumber == 0 ? lineNumber : endLineNumber, checkWarningLevel,
+                message);
         }
 
         private string GetRelativePath(string filespec, string folder)
