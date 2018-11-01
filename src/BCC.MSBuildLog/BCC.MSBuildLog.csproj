@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCC-Core" Version="0.1.5-comparable0001" />
+    <PackageReference Include="BCC-Core" Version="0.1.5" />
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" Condition="'$(TargetFramework)' == 'net471'" />
     <PackageReference Include="FluentCommandLineParser" Version="1.5.0.20-commands" />
     <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
