@@ -43,7 +43,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations));
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -91,7 +91,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations), configurationFile: configurationFile, mockFileSystem: mockFileSystem);
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -105,14 +105,15 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     Faker.System.FilePath(),
+                    Faker.Random.Int(),
+                    Faker.Random.Int(),
                     CheckWarningLevel.Warning,
-                    Faker.Lorem.Word(), Faker.Lorem.Word(),
-                    Faker.Random.Int(), Faker.Random.Int())
+                    Faker.Lorem.Word())
             };
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations));
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -126,9 +127,10 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     Faker.System.FilePath(),
-                    CheckWarningLevel.Warning,
-                    Faker.Lorem.Word(), Faker.Lorem.Word(),
-                    Faker.Random.Int(), Faker.Random.Int())
+                    Faker.Random.Int(),
+                    Faker.Random.Int(), 
+                    CheckWarningLevel.Warning, 
+                    Faker.Lorem.Word())
             };
 
             var expectedCheckRunConfiguration = new CheckRunConfiguration
@@ -155,7 +157,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var checkRunConfiguration = mockBinaryLogProcessor.ReceivedCalls().First().GetArguments()[2] as CheckRunConfiguration;
             checkRunConfiguration.Should().BeEquivalentTo(expectedCheckRunConfiguration);
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be(expectedCheckRunConfiguration.Name);
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -169,14 +171,14 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     Faker.System.FilePath(),
-                    CheckWarningLevel.Failure,
-                    Faker.Lorem.Word(), Faker.Lorem.Word(),
-                    Faker.Random.Int(), Faker.Random.Int())
+                    Faker.Random.Int(),
+                    Faker.Random.Int(), 
+                    CheckWarningLevel.Failure, Faker.Lorem.Word())
             };
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations));
 
-            checkRun.Success.Should().BeFalse();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -190,19 +192,19 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                     new Annotation(
                         Faker.System.FilePath(),
-                        CheckWarningLevel.Warning,
-                        Faker.Lorem.Word(), Faker.Lorem.Word(),
-                        Faker.Random.Int(), Faker.Random.Int()),
+                        Faker.Random.Int(),
+                        Faker.Random.Int(), 
+                        CheckWarningLevel.Warning, Faker.Lorem.Word()),
                     new Annotation(
                         Faker.System.FilePath(),
-                        CheckWarningLevel.Failure,
-                        Faker.Lorem.Word(), Faker.Lorem.Word(),
-                        Faker.Random.Int(), Faker.Random.Int())
+                        Faker.Random.Int(),
+                        Faker.Random.Int(), 
+                        CheckWarningLevel.Failure, Faker.Lorem.Word())
             };
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations));
 
-            checkRun.Success.Should().BeFalse();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -216,9 +218,9 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Warning, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used",
-                    13, 13)
+                    13, 
+                    13,
+                    CheckWarningLevel.Warning, "CS0219: The variable 'hello' is assigned but its value is never used")
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -226,7 +228,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             var checkRun = GetCheckRun(new BinaryLogProcessor(new BinaryLogReader(), TestLogger.Create<BinaryLogProcessor>(_testOutputHelper)), resourcePath, cloneRoot);
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 1 Warning");
             checkRun.Summary.Should().Be(string.Empty);
@@ -240,9 +242,9 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Failure, "CS1002",
-                    "CS1002: ; expected",
-                    13, 13)
+                    13, 
+                    13,
+                    CheckWarningLevel.Failure, "CS1002: ; expected")
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -250,7 +252,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             var checkRun = GetCheckRun(new BinaryLogProcessor(new BinaryLogReader(), TestLogger.Create<BinaryLogProcessor>(_testOutputHelper)), resourcePath, cloneRoot);
 
-            checkRun.Success.Should().BeFalse();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("1 Error 0 Warnings");
             checkRun.Summary.Should().Be(string.Empty);
@@ -264,9 +266,9 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Warning, "CA2213",
-                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.",
-                    20, 20)
+                    20,
+                    20,
+                    CheckWarningLevel.Warning, "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -274,7 +276,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             var checkRun = GetCheckRun(new BinaryLogProcessor(new BinaryLogReader(), TestLogger.Create<BinaryLogProcessor>(_testOutputHelper)), resourcePath, cloneRoot);
 
-            checkRun.Success.Should().BeTrue();
+            checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
             checkRun.Title.Should().Be("0 Errors 1 Warning");
             checkRun.Summary.Should().Be(string.Empty);

@@ -42,10 +42,11 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.WarningCount.Should().Be(1);
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
-                    "TestConsoleApp1/Program.cs", 
-                    CheckWarningLevel.Warning, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used", 
-                    13, 13)
+                    "TestConsoleApp1/Program.cs",
+                    13,
+                    13,
+                    CheckWarningLevel.Warning,
+                    "CS0219: The variable 'hello' is assigned but its value is never used")
             );
         }
 
@@ -72,9 +73,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Warning, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used",
-                    13, 13)
+                    13,
+                    13,
+                    CheckWarningLevel.Warning,
+                    "CS0219: The variable 'hello' is assigned but its value is never used")
             );
         }
 
@@ -101,9 +103,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Warning, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used",
-                    13, 13)
+                    13,
+                    13,
+                    CheckWarningLevel.Warning,
+                    "CS0219: The variable 'hello' is assigned but its value is never used")
             );
         }
          
@@ -130,9 +133,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Notice, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used",
-                    13, 13)
+                    13,
+                    13,
+                    CheckWarningLevel.Notice,
+                    "CS0219: The variable 'hello' is assigned but its value is never used")
             );
         }
 
@@ -159,9 +163,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Failure, "CS0219",
-                    "CS0219: The variable 'hello' is assigned but its value is never used",
-                    13, 13)
+                    13,
+                    13,
+                    CheckWarningLevel.Failure,
+                    "CS0219: The variable 'hello' is assigned but its value is never used")
             );
         }
 
@@ -197,9 +202,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Failure, "CS1002",
-                    "CS1002: ; expected", 
-                    13, 13)
+                    13,
+                    13,
+                    CheckWarningLevel.Failure,
+                    "CS1002: ; expected")
             );
         }
 
@@ -215,9 +221,10 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    CheckWarningLevel.Warning, "CA2213",
-                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.", 
-                    20, 20)
+                    20,
+                    20,
+                    CheckWarningLevel.Warning,
+                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
             );
         }
 
@@ -234,17 +241,19 @@ namespace BCC.MSBuildLog.Tests.Services
 
             logData.Annotations[0].Should().BeEquivalentTo(
                 new Annotation(
-                    "MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs", 
-                    CheckWarningLevel.Warning,"CS0219",
-                    "CS0219: The variable 'filename' is assigned but its value is never used",
-                    56, 56));
+                    "MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs",
+                    56,
+                    56,
+                    CheckWarningLevel.Warning,
+                    "CS0219: The variable 'filename' is assigned but its value is never used"));
 
             logData.Annotations[1].Should().BeEquivalentTo(
                 new Annotation(
-                    "MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs", 
-                    CheckWarningLevel.Warning,"CS0219",
-                    "CS0219: The variable 'filename' is assigned but its value is never used",
-                    83, 83));
+                    "MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs",
+                    83,
+                    83,
+                    CheckWarningLevel.Warning,
+                    "CS0219: The variable 'filename' is assigned but its value is never used"));
         }
 
         [Fact]
@@ -261,16 +270,18 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Annotations[0].Should().BeEquivalentTo(
                 new Annotation(
                     "Octokit.GraphQL.Core/Connection.cs",
-                    CheckWarningLevel.Warning,"CS1591",
-                    "CS1591: Missing XML comment for publicly visible type or member 'Connection.Uri'",
-                    43, 43));
+                    43,
+                    43,
+                    CheckWarningLevel.Warning,
+                    "CS1591: Missing XML comment for publicly visible type or member 'Connection.Uri'"));
 
             logData.Annotations[1].Should().BeEquivalentTo(
                 new Annotation(
                     "Octokit.GraphQL.Core/Connection.cs",
-                    CheckWarningLevel.Warning,"CS1591",
-                    "CS1591: Missing XML comment for publicly visible type or member 'Connection.CredentialStore'",
-                    44, 44));
+                    44,
+                    44,
+                    CheckWarningLevel.Warning,
+                    "CS1591: Missing XML comment for publicly visible type or member 'Connection.CredentialStore'"));
         }
         [Fact]
         public void Should_Parse_GitHubVisualStudio()
