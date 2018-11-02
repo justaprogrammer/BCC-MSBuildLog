@@ -96,8 +96,6 @@ namespace BCC.MSBuildLog.Services
                 var filePath = GetFilePath(cloneRoot, projectFile ?? file, file);
                 title = $"{code}: {filePath}({lineNumber})";
 
-                message = $"{buildCode}: {message}";
-
                 ReportAs reportAs = ReportAs.AsIs;
                 if (ruleDictionary?.TryGetValue(buildCode, out reportAs) ?? false)
                 {

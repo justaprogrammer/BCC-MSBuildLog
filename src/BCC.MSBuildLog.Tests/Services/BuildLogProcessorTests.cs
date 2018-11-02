@@ -223,7 +223,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     CheckWarningLevel.Warning,
-                    "CS0219: The variable 'hello' is assigned but its value is never used")
+                    "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
@@ -251,7 +251,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     CheckWarningLevel.Failure,
-                    "CS1002: ; expected")
+                    "; expected")
                 {
                     Title = "CS1002: TestConsoleApp1/Program.cs(13)"
                 }
@@ -279,7 +279,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     20,
                     20,
                     CheckWarningLevel.Warning,
-                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
+                    "Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
                 {
                     Title = "CA2213: TestConsoleApp1/Program.cs(20)"
                 }
