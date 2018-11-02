@@ -153,7 +153,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var mockBinaryLogProcessor = CreateMockBinaryLogProcessor(annotations, 1);
             var checkRun = GetCheckRun(mockBinaryLogProcessor, configurationFile: configurationFile, mockFileSystem: mockFileSystem);
 
-            mockBinaryLogProcessor.Received(1).ProcessLog(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CheckRunConfiguration>());
+            mockBinaryLogProcessor.Received(1).ProcessLog(Arg.Any<string>(), Arg.Any<string>(), $"justaprogrammer", $"BuildCrossCheck", $"efdcc70202c549fbaa0cb4cce47fbd8dd3ce3b01", Arg.Any<CheckRunConfiguration>());
             var checkRunConfiguration = mockBinaryLogProcessor.ReceivedCalls().First().GetArguments()[2] as CheckRunConfiguration;
             checkRunConfiguration.Should().BeEquivalentTo(expectedCheckRunConfiguration);
 
@@ -328,7 +328,7 @@ namespace BCC.MSBuildLog.Tests.Services
         private static IBinaryLogProcessor CreateMockBinaryLogProcessor(Annotation[] annotations, int warningCount = 0, int errorCount = 0)
         {
             var binaryLogProcessor = Substitute.For<IBinaryLogProcessor>();
-            binaryLogProcessor.ProcessLog(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CheckRunConfiguration>())
+            binaryLogProcessor.ProcessLog(Arg.Any<string>(), Arg.Any<string>(), $"justaprogrammer", $"BuildCrossCheck", $"efdcc70202c549fbaa0cb4cce47fbd8dd3ce3b01", Arg.Any<CheckRunConfiguration>())
                 .Returns(new LogData()
                 {
                     Annotations = annotations,

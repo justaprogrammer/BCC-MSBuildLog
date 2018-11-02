@@ -60,7 +60,7 @@ namespace BCC.MSBuildLog.Services
             }
 
             var dateTimeOffset = DateTimeOffset.Now;
-            var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, configuration);
+            var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, $"justaprogrammer", $"BuildCrossCheck", $"efdcc70202c549fbaa0cb4cce47fbd8dd3ce3b01", configuration);
 
             var hasAnyFailure = logData.Annotations.Any() &&
                                 logData.Annotations.Any(annotation => annotation.CheckWarningLevel == CheckWarningLevel.Failure);

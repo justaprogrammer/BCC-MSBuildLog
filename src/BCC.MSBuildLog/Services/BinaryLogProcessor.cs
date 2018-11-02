@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Extensions;
 using BCC.MSBuildLog.Interfaces;
@@ -27,7 +28,7 @@ namespace BCC.MSBuildLog.Services
         }
 
         /// <inheritdoc />
-        public LogData ProcessLog(string binLogPath, string cloneRoot, CheckRunConfiguration configuration = null)
+        public LogData ProcessLog(string binLogPath, string cloneRoot, string owner, string repo, string hash, CheckRunConfiguration configuration = null)
         {
             Logger.LogInformation("ProcessLog binLogPath:{0} cloneRoot:{1}", binLogPath, cloneRoot);
 
@@ -37,6 +38,7 @@ namespace BCC.MSBuildLog.Services
             var warningCount = 0;
             var errorCount = 0;
             var annotations = new List<Annotation>();
+            var report = new StringBuilder();
             foreach (var record in _binaryLogReader.ReadRecords(binLogPath))
             {
                 var buildEventArgs = record.Args;
@@ -128,13 +130,16 @@ namespace BCC.MSBuildLog.Services
                     lineNumber,
                     endLineNumber,
                     filePath));
+
+                report.AppendLine($"[{filePath}](https://github.com/{owner}/{repo}/tree/{hash}/{filePath})({lineNumber}) {code}: {message}");
             }
 
             return new LogData
             {
                 Annotations = annotations.ToArray(),
                 WarningCount = warningCount,
-                ErrorCount = errorCount
+                ErrorCount = errorCount,
+                Report = report.ToString()
             };
         }
 
