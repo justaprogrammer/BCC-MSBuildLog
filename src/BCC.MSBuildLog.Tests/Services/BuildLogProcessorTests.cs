@@ -45,7 +45,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("0 Errors 0 Warnings");
+            checkRun.Title.Should().Be("0 errors - 0 warnings");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().AllBeEquivalentTo(annotations);
         }
@@ -93,7 +93,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("0 Errors 0 Warnings");
+            checkRun.Title.Should().Be("0 errors - 0 warnings");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().AllBeEquivalentTo(annotations);
         }
@@ -115,7 +115,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("0 Errors 1 Warning");
+            checkRun.Title.Should().Be("0 errors - 1 warning");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -159,7 +159,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be(expectedCheckRunConfiguration.Name);
-            checkRun.Title.Should().Be("0 Errors 1 Warning");
+            checkRun.Title.Should().Be("0 errors - 1 warning");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -180,7 +180,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("1 Error 0 Warnings");
+            checkRun.Title.Should().Be("1 error - 0 warnings");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -194,19 +194,21 @@ namespace BCC.MSBuildLog.Tests.Services
                         Faker.System.FilePath(),
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
-                        CheckWarningLevel.Warning, Faker.Lorem.Word()),
+                        CheckWarningLevel.Warning,
+                        Faker.Lorem.Word()),
                     new Annotation(
                         Faker.System.FilePath(),
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
-                        CheckWarningLevel.Failure, Faker.Lorem.Word())
+                        CheckWarningLevel.Failure, 
+                        Faker.Lorem.Word())
             };
 
             var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, 1, 1));
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("1 Error 1 Warning");
+            checkRun.Title.Should().Be("1 error - 1 warning");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -222,6 +224,9 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     CheckWarningLevel.Warning,
                     "CS0219: The variable 'hello' is assigned but its value is never used")
+                {
+                    Title = "CS0219: TestConsoleApp1/Program.cs(13)"
+                }
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -231,7 +236,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("0 Errors 1 Warning");
+            checkRun.Title.Should().Be("0 errors - 1 warning");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -243,9 +248,13 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
-                    13, 
                     13,
-                    CheckWarningLevel.Failure, "CS1002: ; expected")
+                    13,
+                    CheckWarningLevel.Failure,
+                    "CS1002: ; expected")
+                {
+                    Title = "CS1002: TestConsoleApp1/Program.cs(13)"
+                }
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -255,7 +264,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("1 Error 0 Warnings");
+            checkRun.Title.Should().Be("1 error - 0 warnings");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
@@ -269,7 +278,11 @@ namespace BCC.MSBuildLog.Tests.Services
                     "TestConsoleApp1/Program.cs",
                     20,
                     20,
-                    CheckWarningLevel.Warning, "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
+                    CheckWarningLevel.Warning,
+                    "CA2213: Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
+                {
+                    Title = "CA2213: TestConsoleApp1/Program.cs(20)"
+                }
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
@@ -279,7 +292,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
-            checkRun.Title.Should().Be("0 Errors 1 Warning");
+            checkRun.Title.Should().Be("0 errors - 1 warning");
             checkRun.Summary.Should().Be(string.Empty);
             checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
         }
