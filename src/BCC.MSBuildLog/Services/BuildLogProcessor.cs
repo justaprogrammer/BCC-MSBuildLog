@@ -68,11 +68,11 @@ namespace BCC.MSBuildLog.Services
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(logData.ErrorCount.ToString());
             stringBuilder.Append(" ");
-            stringBuilder.Append(logData.ErrorCount == 1 ? "Error": "Errors");
-            stringBuilder.Append(" ");
+            stringBuilder.Append(logData.ErrorCount == 1 ? "error": "errors");
+            stringBuilder.Append(" - ");
             stringBuilder.Append(logData.WarningCount.ToString());
             stringBuilder.Append(" ");
-            stringBuilder.Append(logData.WarningCount == 1 ? "Warning" : "Warnings");
+            stringBuilder.Append(logData.WarningCount == 1 ? "warning" : "warnings");
 
             var contents = JsonConvert.SerializeObject(new CreateCheckRun
             {

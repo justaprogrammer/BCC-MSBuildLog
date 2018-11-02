@@ -55,7 +55,7 @@ namespace BCC.MSBuildLog.Services
                 string message;
                 int lineNumber;
                 int endLineNumber;
-
+                string code;
                 if (buildWarning != null)
                 {
                     warningCount++;
@@ -63,7 +63,7 @@ namespace BCC.MSBuildLog.Services
                     buildCode = buildWarning.Code;
                     projectFile = buildWarning.ProjectFile;
                     file = buildWarning.File;
-                    title = buildWarning.Code;
+                    code = buildWarning.Code;
                     message = buildWarning.Message;
                     lineNumber = buildWarning.LineNumber;
                     endLineNumber = buildWarning.EndLineNumber;
@@ -75,7 +75,7 @@ namespace BCC.MSBuildLog.Services
                     buildCode = buildError.Code;
                     projectFile = buildError.ProjectFile;
                     file = buildError.File;
-                    title = buildError.Code;
+                    code = buildError.Code;
                     message = buildError.Message;
                     lineNumber = buildError.LineNumber;
                     endLineNumber = buildError.EndLineNumber;
@@ -93,7 +93,8 @@ namespace BCC.MSBuildLog.Services
                     }
                 }
 
-                message = $"{buildCode}: {message}";
+                var filePath = GetFilePath(cloneRoot, projectFile ?? file, file);
+                title = $"{code}: {filePath}({lineNumber})";
 
                 ReportAs reportAs = ReportAs.AsIs;
                 if (ruleDictionary?.TryGetValue(buildCode, out reportAs) ?? false)
@@ -122,12 +123,11 @@ namespace BCC.MSBuildLog.Services
 
                 annotations.Add(CreateAnnotation(checkWarningLevel,
                     cloneRoot,
-                    projectFile,
-                    file,
                     title,
                     message,
                     lineNumber,
-                    endLineNumber));
+                    endLineNumber,
+                    filePath));
             }
 
             return new LogData
@@ -138,23 +138,11 @@ namespace BCC.MSBuildLog.Services
             };
         }
 
-        private Annotation CreateAnnotation(CheckWarningLevel checkWarningLevel, [NotNull] string cloneRoot,
-            [NotNull] string projectFile,
-            [NotNull] string file, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber)
+        private Annotation CreateAnnotation(CheckWarningLevel checkWarningLevel, [NotNull] string cloneRoot, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
         {
             if (cloneRoot == null)
             {
                 throw new ArgumentNullException(nameof(cloneRoot));
-            }
-
-            if (projectFile == null)
-            {
-                throw new ArgumentNullException(nameof(projectFile));
-            }
-
-            if (file == null)
-            {
-                throw new ArgumentNullException(nameof(file));
             }
 
             if (title == null)
@@ -167,17 +155,36 @@ namespace BCC.MSBuildLog.Services
                 throw new ArgumentNullException(nameof(message));
             }
 
+            return new Annotation(
+                getFilePath,
+                lineNumber,
+                endLineNumber == 0 ? lineNumber : endLineNumber,
+                checkWarningLevel,
+                message)
+            {
+                Title = title
+            };
+        }
+
+        private string GetFilePath(string cloneRoot, string projectFile, string file)
+        {
+            if (projectFile == null)
+            {
+                throw new ArgumentNullException(nameof(projectFile));
+            }
+
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             var filePath = Path.Combine(Path.GetDirectoryName(projectFile), file);
             if (!filePath.IsSubPathOf(cloneRoot))
             {
                 throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{cloneRoot}`");
             }
 
-            var relativePath = GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
-
-            return new Annotation(relativePath, lineNumber,
-                endLineNumber == 0 ? lineNumber : endLineNumber, checkWarningLevel,
-                message);
+            return GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
         }
 
         private string GetRelativePath(string filespec, string folder)

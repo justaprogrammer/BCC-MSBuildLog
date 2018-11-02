@@ -53,7 +53,7 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 "-i", $@"""{inputPath}""",
                 "-o", $@"""{outputPath}""",
-                "-c", $@"""{cloneRoot}"""
+                "-r", $@"""{cloneRoot}"""
             });
 
             listener.DidNotReceive().Callback(Arg.Any<string>());
@@ -98,8 +98,8 @@ namespace BCC.MSBuildLog.Tests.Services
             {
                 "-i", $@"""{inputPath}""",
                 "-o", $@"""{outputPath}""",
-                "-c", $@"""{cloneRoot}""",
-                "--configuration", $@"""{configurationFile}"""
+                "-r", $@"""{cloneRoot}""",
+                "-c", $@"""{configurationFile}"""
             });
 
             listener.DidNotReceive().Callback(Arg.Any<string>());
