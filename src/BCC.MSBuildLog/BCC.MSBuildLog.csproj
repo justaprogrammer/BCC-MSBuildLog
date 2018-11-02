@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <StartupObject>BCC.MSBuildLog.Program</StartupObject>
+    <AssemblyName>BCCMSBuildLog</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
