@@ -52,7 +52,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
          
         [Fact]
@@ -157,7 +157,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -192,7 +192,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -214,7 +214,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
             logData.Annotations.Should().BeEmpty();
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().BeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -238,7 +238,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -262,7 +262,7 @@ namespace BCC.MSBuildLog.Tests.Services
                 }
             );
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -298,7 +298,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs(83)"
                 });
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -334,7 +334,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS1591: Octokit.GraphQL.Core/Connection.cs(44)"
                 });
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -346,7 +346,7 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1556);
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -360,7 +360,7 @@ namespace BCC.MSBuildLog.Tests.Services
 
             logData.Annotations.Length.Should().Be(0);
 
-            logData.Report.Should().BeNull();
+            logData.Report.Should().BeNullOrWhiteSpace();
         }
 
         [Fact]

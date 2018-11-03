@@ -143,7 +143,7 @@ namespace BCC.MSBuildLog.Tests.Services
                         Code = Faker.Lorem.Word(),
                         ReportAs = Faker.Random.Enum<ReportAs>()
                     },
-                }
+                },
             };
 
             var configurationFile = Faker.System.FilePath();
@@ -153,8 +153,8 @@ namespace BCC.MSBuildLog.Tests.Services
             var mockBinaryLogProcessor = CreateMockBinaryLogProcessor(annotations, 1);
             var checkRun = GetCheckRun(mockBinaryLogProcessor, configurationFile: configurationFile, mockFileSystem: mockFileSystem);
 
-            mockBinaryLogProcessor.Received(1).ProcessLog(Arg.Any<string>(), Arg.Any<string>(), $"justaprogrammer", $"BuildCrossCheck", $"efdcc70202c549fbaa0cb4cce47fbd8dd3ce3b01", Arg.Any<CheckRunConfiguration>());
-            var checkRunConfiguration = mockBinaryLogProcessor.ReceivedCalls().First().GetArguments()[2] as CheckRunConfiguration;
+            mockBinaryLogProcessor.Received(1).ProcessLog(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CheckRunConfiguration>());
+            var checkRunConfiguration = mockBinaryLogProcessor.ReceivedCalls().First().GetArguments()[5] as CheckRunConfiguration;
             checkRunConfiguration.Should().BeEquivalentTo(expectedCheckRunConfiguration);
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
