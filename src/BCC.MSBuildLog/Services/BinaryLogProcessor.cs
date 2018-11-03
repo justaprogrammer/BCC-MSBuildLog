@@ -136,7 +136,7 @@ namespace BCC.MSBuildLog.Services
 
                 var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
-                report.AppendLine($"[{filePath}](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference})({lineNumber}) {code}: {message}");
+                report.AppendLine($"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) {code}: {message}");
             }
 
             return new LogData
