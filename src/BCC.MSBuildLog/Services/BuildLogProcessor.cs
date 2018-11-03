@@ -80,7 +80,7 @@ namespace BCC.MSBuildLog.Services
                 Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
                 StartedAt = dateTimeOffset,
                 CompletedAt = DateTimeOffset.Now,
-                Summary = string.Empty,
+                Summary = logData.Report,
                 Name = configuration?.Name ?? "MSBuild Log",
                 Title = stringBuilder.ToString(),
             });

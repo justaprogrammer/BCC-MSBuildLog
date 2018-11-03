@@ -83,6 +83,9 @@ namespace BCC.MSBuildLog.Services
                     endLineNumber = buildError.EndLineNumber;
                 }
 
+
+                endLineNumber = endLineNumber == 0 ? lineNumber : endLineNumber;
+
                 if (buildCode.StartsWith("MSB"))
                 {
                     if (projectFile == null)
@@ -131,7 +134,9 @@ namespace BCC.MSBuildLog.Services
                     endLineNumber,
                     filePath));
 
-                report.AppendLine($"[{filePath}](https://github.com/{owner}/{repo}/tree/{hash}/{filePath})({lineNumber}) {code}: {message}");
+                var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
+
+                report.AppendLine($"[{filePath}](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference})({lineNumber}) {code}: {message}");
             }
 
             return new LogData
@@ -163,7 +168,7 @@ namespace BCC.MSBuildLog.Services
             return new Annotation(
                 getFilePath,
                 lineNumber,
-                endLineNumber == 0 ? lineNumber : endLineNumber,
+                endLineNumber,
                 checkWarningLevel,
                 message)
             {
