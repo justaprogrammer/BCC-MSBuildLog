@@ -34,7 +34,14 @@ namespace BCC.MSBuildLog
                 var result = _commandLineParser.Parse(args);
                 if (result != null)
                 {
-                    _buildLogProcessor.Proces(result.InputFile, result.OutputFile, result.CloneRoot, result.ConfigurationFile);
+                    _buildLogProcessor.Proces(
+                        result.InputFile,
+                        result.OutputFile,
+                        result.CloneRoot, 
+                        result.Owner, 
+                        result.Repo, 
+                        result.Hash, 
+                        result.ConfigurationFile);
                     return true;
                 }
 

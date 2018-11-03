@@ -2,6 +2,6 @@
 {
     public interface IBuildLogProcessor
     {
-        void Proces(string inputFile, string outputFile, string cloneRoot, string configurationFile = null);
+        void Proces(string inputFile, string outputFile, string cloneRoot, string owner, string repo, string hash, string configurationFile = null);
     }
 }

@@ -13,22 +13,37 @@ namespace BCC.MSBuildLog.Services
             _parser = new FluentCommandLineParser<ApplicationArguments>();
 
             _parser.Setup(arg => arg.InputFile)
-                .As('i', "input")
+                .As("input")
                 .WithDescription("Input file")
                 .Required();
 
             _parser.Setup(arg => arg.OutputFile)
-                .As('o', "output")
+                .As("output")
                 .WithDescription("Output file")
                 .Required();
 
             _parser.Setup(arg => arg.ConfigurationFile)
-                .As('c', "configuration")
+                .As("configuration")
                 .WithDescription("Configuration file");
 
             _parser.Setup(arg => arg.CloneRoot)
-                .As('r', "cloneRoot")
+                .As("cloneRoot")
                 .WithDescription("Clone root")
+                .Required();
+
+            _parser.Setup(arg => arg.Owner)
+                .As("owner")
+                .WithDescription("Repository owner")
+                .Required();
+
+            _parser.Setup(arg => arg.Repo)
+                .As("repo")
+                .WithDescription("Repository")
+                .Required();
+
+            _parser.Setup(arg => arg.Hash)
+                .As("hash")
+                .WithDescription("Hash")
                 .Required();
 
             _parser.SetupHelp("?", "help")
