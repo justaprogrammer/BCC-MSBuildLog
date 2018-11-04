@@ -28,11 +28,48 @@ namespace BCC.MSBuildLog.Tests.Services
         }
 
         [Fact]
-        public void ShouldParseForHelpIfNothingSent()
+        public void ShouldCallForHelpIfNoOwnership()
         {
             var listener = Substitute.For<ICommandLineParserCallBackListener>();
             var commandLineParser = new CommandLineParser(listener.Callback);
-            var applicationArguments = commandLineParser.Parse(new []{"-?"});
+
+            var inputPath = Faker.System.FilePath();
+            var outputPath = Faker.System.FilePath();
+            var cloneRoot = Faker.System.DirectoryPath();
+            var hash = Faker.Random.String(10);
+
+            var applicationArguments = commandLineParser.Parse(new[]
+            {
+                "--input", $@"""{inputPath}""",
+                "--output", $@"""{outputPath}""",
+                "--cloneRoot", $@"""{cloneRoot}""",
+                "--hash", $@"""{hash}""",
+            });
+
+            applicationArguments.Should().BeNull();
+
+            listener.Received(1).Callback(Arg.Any<string>());
+        }
+
+        [Fact]
+        public void ShouldCallForHelpIfOwnerRepoIsInvalid()
+        {
+            var listener = Substitute.For<ICommandLineParserCallBackListener>();
+            var commandLineParser = new CommandLineParser(listener.Callback);
+
+            var inputPath = Faker.System.FilePath();
+            var outputPath = Faker.System.FilePath();
+            var cloneRoot = Faker.System.DirectoryPath();
+            var hash = Faker.Random.String(10);
+
+            var applicationArguments = commandLineParser.Parse(new[]
+            {
+                "--input", $@"""{inputPath}""",
+                "--output", $@"""{outputPath}""",
+                "--cloneRoot", $@"""{cloneRoot}""",
+                "--ownerrepo", "invalid_Format",
+                "--hash", $@"""{hash}""",
+            });
 
             applicationArguments.Should().BeNull();
 
@@ -68,6 +105,29 @@ namespace BCC.MSBuildLog.Tests.Services
             applicationArguments.InputFile.Should().Be(inputPath);
             applicationArguments.OutputFile.Should().Be(outputPath);
             applicationArguments.CloneRoot.Should().Be(cloneRoot);
+            applicationArguments.OwnerRepo.Should().BeNull();
+            applicationArguments.Owner.Should().Be(owner);
+            applicationArguments.Repo.Should().Be(repo);
+            applicationArguments.Hash.Should().Be(hash);
+            applicationArguments.ConfigurationFile.Should().BeNull();
+
+            commandLineParser = new CommandLineParser(listener.Callback);
+            applicationArguments = commandLineParser.Parse(new[]
+            {
+                "--input", $@"""{inputPath}""",
+                "--output", $@"""{outputPath}""",
+                "--cloneRoot", $@"""{cloneRoot}""",
+                "--ownerRepo", $@"""{owner}/{repo}""",
+                "--hash", $@"""{hash}""",
+            });
+
+            listener.DidNotReceive().Callback(Arg.Any<string>());
+
+            applicationArguments.Should().NotBeNull();
+            applicationArguments.InputFile.Should().Be(inputPath);
+            applicationArguments.OutputFile.Should().Be(outputPath);
+            applicationArguments.CloneRoot.Should().Be(cloneRoot);
+            applicationArguments.OwnerRepo.Should().Be($"{owner}/{repo}");
             applicationArguments.Owner.Should().Be(owner);
             applicationArguments.Repo.Should().Be(repo);
             applicationArguments.Hash.Should().Be(hash);
