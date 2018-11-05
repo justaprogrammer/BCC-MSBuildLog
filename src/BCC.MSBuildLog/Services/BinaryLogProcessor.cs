@@ -58,9 +58,12 @@ namespace BCC.MSBuildLog.Services
                 int lineNumber;
                 int endLineNumber;
                 string code;
+                string recordTypeString;
                 if (buildWarning != null)
                 {
                     warningCount++;
+                    recordTypeString = "Warning";
+
                     checkWarningLevel = CheckWarningLevel.Warning;
                     buildCode = buildWarning.Code;
                     projectFile = buildWarning.ProjectFile;
@@ -73,6 +76,8 @@ namespace BCC.MSBuildLog.Services
                 else
                 {
                     errorCount++;
+                    recordTypeString = "Error";
+
                     checkWarningLevel = CheckWarningLevel.Failure;
                     buildCode = buildError.Code;
                     projectFile = buildError.ProjectFile;
@@ -108,10 +113,8 @@ namespace BCC.MSBuildLog.Services
                     {
                         case ReportAs.Ignore:
                             continue;
-
                         case ReportAs.AsIs:
                             break;
-
                         case ReportAs.Notice:
                             checkWarningLevel = CheckWarningLevel.Notice;
                             break;
@@ -136,7 +139,8 @@ namespace BCC.MSBuildLog.Services
 
                 var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
-                report.AppendLine($"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) {code}: {message}");
+
+                report.AppendLine($"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}**: {message}");
             }
 
             return new LogData
