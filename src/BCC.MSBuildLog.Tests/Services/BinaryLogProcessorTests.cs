@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
@@ -347,6 +348,9 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.WarningCount.Should().Be(1556);
 
             logData.Report.Should().NotBeNullOrWhiteSpace();
+
+            var reportKbytes = Encoding.Unicode.GetByteCount(logData.Report) / 1024.0;
+            reportKbytes.Should().BeLessThan(128.0);
         }
 
         [Fact]

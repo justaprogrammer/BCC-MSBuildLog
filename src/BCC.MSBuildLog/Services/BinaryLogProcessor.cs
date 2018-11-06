@@ -35,7 +35,7 @@ namespace BCC.MSBuildLog.Services
             var ruleDictionary = 
                 configuration?.Rules?.ToDictionary(rule => rule.Code, rule => rule.ReportAs);
 
-            var reportTotalBytes = 0;
+            var reportTotalBytes = 0.0;
             var reportingMaxed = false;
 
             var warningCount = 0;
@@ -144,11 +144,12 @@ namespace BCC.MSBuildLog.Services
                 { 
                     var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
-                    var line = $"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}";
-                    var lineBytes = Encoding.UTF8.GetByteCount(line);
-                    if (reportTotalBytes + lineBytes < 128 * 1024)
+                    var line = $"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
+                    var lineBytes = Encoding.Unicode.GetByteCount(line) / 1024.0;
+
+                    if (reportTotalBytes + lineBytes < 128.0)
                     {
-                        report.AppendLine(line);
+                        report.Append(line);
                         reportTotalBytes += lineBytes;
                     }
                     else
