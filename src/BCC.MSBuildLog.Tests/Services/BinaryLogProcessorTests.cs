@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
@@ -36,7 +37,7 @@ namespace BCC.MSBuildLog.Tests.Services
         public void Should_TestConsoleApp1_Warning()
         {
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -51,6 +52,8 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -69,7 +72,7 @@ namespace BCC.MSBuildLog.Tests.Services
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, checkRunConfiguration);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -84,6 +87,8 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -102,7 +107,7 @@ namespace BCC.MSBuildLog.Tests.Services
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, checkRunConfiguration);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -117,6 +122,8 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
          
         [Fact]
@@ -135,7 +142,7 @@ namespace BCC.MSBuildLog.Tests.Services
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, checkRunConfiguration);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -150,6 +157,8 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -168,7 +177,7 @@ namespace BCC.MSBuildLog.Tests.Services
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, checkRunConfiguration);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -183,6 +192,8 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -201,15 +212,17 @@ namespace BCC.MSBuildLog.Tests.Services
             };
 
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, checkRunConfiguration);
+            var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
             logData.Annotations.Should().BeEmpty();
+
+            logData.Report.Should().BeNullOrWhiteSpace();
         }
 
         [Fact]
         public void Should_TestConsoleApp1_Error()
         {
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-1error.binlog", cloneRoot);
+            var logData = ProcessLog("testconsoleapp1-1error.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(1);
             logData.WarningCount.Should().Be(0);
@@ -225,13 +238,15 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CS1002: TestConsoleApp1/Program.cs(13)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
         public void Should_TestConsoleApp1_CodeAnalysis()
         {
             var cloneRoot = @"C:\projects\testconsoleapp1\";
-            var logData = ProcessLog("testconsoleapp1-codeanalysis.binlog", cloneRoot);
+            var logData = ProcessLog("testconsoleapp1-codeanalysis.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
@@ -247,13 +262,15 @@ namespace BCC.MSBuildLog.Tests.Services
                     Title = "CA2213: TestConsoleApp1/Program.cs(20)"
                 }
             );
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
         public void Should_MSBLOC()
         {
             var cloneRoot = @"C:\projects\msbuildlogoctokitchecker\";
-            var logData = ProcessLog("msbloc.binlog", cloneRoot);
+            var logData = ProcessLog("msbloc.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(10);
@@ -281,13 +298,15 @@ namespace BCC.MSBuildLog.Tests.Services
                 {
                     Title = "CS0219: MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs(83)"
                 });
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
         public void Should_Parse_OctokitGraphQL()
         {
             var cloneRoot = @"C:\projects\octokit-graphql\";
-            var logData = ProcessLog("octokit.graphql.binlog", cloneRoot);
+            var logData = ProcessLog("octokit.graphql.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(803);
@@ -315,28 +334,37 @@ namespace BCC.MSBuildLog.Tests.Services
                 {
                     Title = "CS1591: Octokit.GraphQL.Core/Connection.cs(44)"
                 });
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
         public void Should_Parse_GitHubVisualStudio()
         {
             var cloneRoot = @"c:\users\spade\projects\github\visualstudio\";
-            var logData = ProcessLog("visualstudio.binlog", cloneRoot);
+            var logData = ProcessLog("visualstudio.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1556);
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
+
+            var reportKbytes = Encoding.Unicode.GetByteCount(logData.Report) / 1024.0;
+            reportKbytes.Should().BeLessThan(128.0);
         }
 
         [Fact]
         public void Should_Parse_DBATools()
         {
             var cloneRoot = @"c:\github\dbatools\bin\projects\dbatools\";
-            var logData = ProcessLog("dbatools.binlog", cloneRoot);
+            var logData = ProcessLog("dbatools.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(0);
 
             logData.Annotations.Length.Should().Be(0);
+
+            logData.Report.Should().BeNullOrWhiteSpace();
         }
 
         [Fact]
@@ -344,26 +372,26 @@ namespace BCC.MSBuildLog.Tests.Services
         {
             var invalidOperationException = Assert.Throws<InvalidOperationException>(() =>
             {
-                ProcessLog("testconsoleapp1-1warning.binlog", @"C:\projects\testconsoleapp2\");
+                ProcessLog("testconsoleapp1-1warning.binlog", @"C:\projects\testconsoleapp2\", Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
             });
 
             invalidOperationException.Message.Should().Be(@"FilePath `C:\projects\testconsoleapp1\TestConsoleApp1\Program.cs` is not a child of `C:\projects\testconsoleapp2\`");
 
             invalidOperationException = Assert.Throws<InvalidOperationException>(() =>
             {
-                ProcessLog("testconsoleapp1-1error.binlog", @"C:\projects\testconsoleapp2\");
+                ProcessLog("testconsoleapp1-1error.binlog", @"C:\projects\testconsoleapp2\", Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
             });
             invalidOperationException.Message.Should().Be(@"FilePath `C:\projects\testconsoleapp1\TestConsoleApp1\Program.cs` is not a child of `C:\projects\testconsoleapp2\`");
         }
 
-        private LogData ProcessLog(string resourceName, string cloneRoot, CheckRunConfiguration checkRunConfiguration = null)
+        private LogData ProcessLog(string resourceName, string cloneRoot, string userName, string repo, string hash, CheckRunConfiguration checkRunConfiguration = null)
         {
             var resourcePath = TestUtils.GetResourcePath(resourceName);
             File.Exists(resourcePath).Should().BeTrue();
 
             var binaryLogReader = new BinaryLogReader();
             var logProcessor = new BinaryLogProcessor(binaryLogReader, TestLogger.Create<BinaryLogProcessor>(_testOutputHelper));
-            return logProcessor.ProcessLog(resourcePath, cloneRoot, checkRunConfiguration);
+            return logProcessor.ProcessLog(resourcePath, cloneRoot, userName, repo, hash, checkRunConfiguration);
         }
     }
 }

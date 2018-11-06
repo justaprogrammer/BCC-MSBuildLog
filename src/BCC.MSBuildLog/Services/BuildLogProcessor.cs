@@ -30,7 +30,7 @@ namespace BCC.MSBuildLog.Services
             Logger = logger ?? new NullLogger<BuildLogProcessor>();
         }
 
-        public void Proces(string inputFile, string outputFile, string cloneRoot, string configurationFile = null)
+        public void Proces(string inputFile, string outputFile, string cloneRoot, string owner, string repo, string hash, string configurationFile = null)
         {
             if (!_fileSystem.File.Exists(inputFile))
             {
@@ -60,7 +60,7 @@ namespace BCC.MSBuildLog.Services
             }
 
             var dateTimeOffset = DateTimeOffset.Now;
-            var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, configuration);
+            var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, owner, repo, hash, configuration);
 
             var hasAnyFailure = logData.Annotations.Any() &&
                                 logData.Annotations.Any(annotation => annotation.CheckWarningLevel == CheckWarningLevel.Failure);
@@ -80,7 +80,7 @@ namespace BCC.MSBuildLog.Services
                 Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
                 StartedAt = dateTimeOffset,
                 CompletedAt = DateTimeOffset.Now,
-                Summary = string.Empty,
+                Summary = logData.Report,
                 Name = configuration?.Name ?? "MSBuild Log",
                 Title = stringBuilder.ToString(),
             });

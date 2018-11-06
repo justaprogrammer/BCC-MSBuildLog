@@ -23,7 +23,13 @@ namespace BCC.MSBuildLog.Tests
 
             program.Run(new string[0]);
             commandLineParser.Received(1).Parse(Arg.Any<string[]>());
-            buildLogProcessor.DidNotReceive().Proces(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            buildLogProcessor.DidNotReceive().Proces(
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>());
         }
 
         [Fact]
@@ -34,7 +40,11 @@ namespace BCC.MSBuildLog.Tests
             var applicationArguments = new ApplicationArguments()
             {
                 OutputFile = Faker.System.FilePath(),
-                InputFile = Faker.System.FilePath()
+                InputFile = Faker.System.FilePath(),
+                Repo = Faker.Random.Word(),
+                Owner = Faker.Random.Word(),
+                Hash = Faker.Random.String(10),
+                CloneRoot = Faker.System.DirectoryPath()
             };
 
             commandLineParser.Parse(Arg.Any<string[]>()).Returns(applicationArguments);
@@ -42,7 +52,13 @@ namespace BCC.MSBuildLog.Tests
             var program = new Program(commandLineParser, buildLogProcessor);
 
             program.Run(new string[0]);
-            buildLogProcessor.Received(1).Proces(applicationArguments.InputFile, applicationArguments.OutputFile, Arg.Any<string>());
+            buildLogProcessor.Received(1).Proces(
+                applicationArguments.InputFile,
+                applicationArguments.OutputFile,
+                applicationArguments.CloneRoot,
+                applicationArguments.Owner,
+                applicationArguments.Repo,
+                applicationArguments.Hash);
         }
     }
 }

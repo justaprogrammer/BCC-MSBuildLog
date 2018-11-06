@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Extensions;
 using BCC.MSBuildLog.Interfaces;
@@ -27,16 +28,20 @@ namespace BCC.MSBuildLog.Services
         }
 
         /// <inheritdoc />
-        public LogData ProcessLog(string binLogPath, string cloneRoot, CheckRunConfiguration configuration = null)
+        public LogData ProcessLog(string binLogPath, string cloneRoot, string owner, string repo, string hash, CheckRunConfiguration configuration = null)
         {
             Logger.LogInformation("ProcessLog binLogPath:{0} cloneRoot:{1}", binLogPath, cloneRoot);
 
             var ruleDictionary = 
                 configuration?.Rules?.ToDictionary(rule => rule.Code, rule => rule.ReportAs);
 
+            var reportTotalBytes = 0.0;
+            var reportingMaxed = false;
+
             var warningCount = 0;
             var errorCount = 0;
             var annotations = new List<Annotation>();
+            var report = new StringBuilder();
             foreach (var record in _binaryLogReader.ReadRecords(binLogPath))
             {
                 var buildEventArgs = record.Args;
@@ -56,9 +61,12 @@ namespace BCC.MSBuildLog.Services
                 int lineNumber;
                 int endLineNumber;
                 string code;
+                string recordTypeString;
                 if (buildWarning != null)
                 {
                     warningCount++;
+                    recordTypeString = "Warning";
+
                     checkWarningLevel = CheckWarningLevel.Warning;
                     buildCode = buildWarning.Code;
                     projectFile = buildWarning.ProjectFile;
@@ -71,6 +79,8 @@ namespace BCC.MSBuildLog.Services
                 else
                 {
                     errorCount++;
+                    recordTypeString = "Error";
+
                     checkWarningLevel = CheckWarningLevel.Failure;
                     buildCode = buildError.Code;
                     projectFile = buildError.ProjectFile;
@@ -80,6 +90,9 @@ namespace BCC.MSBuildLog.Services
                     lineNumber = buildError.LineNumber;
                     endLineNumber = buildError.EndLineNumber;
                 }
+
+
+                endLineNumber = endLineNumber == 0 ? lineNumber : endLineNumber;
 
                 if (buildCode.StartsWith("MSB"))
                 {
@@ -103,10 +116,8 @@ namespace BCC.MSBuildLog.Services
                     {
                         case ReportAs.Ignore:
                             continue;
-
                         case ReportAs.AsIs:
                             break;
-
                         case ReportAs.Notice:
                             checkWarningLevel = CheckWarningLevel.Notice;
                             break;
@@ -128,13 +139,32 @@ namespace BCC.MSBuildLog.Services
                     lineNumber,
                     endLineNumber,
                     filePath));
+
+                if(!reportingMaxed)
+                { 
+                    var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
+
+                    var line = $"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
+                    var lineBytes = Encoding.Unicode.GetByteCount(line) / 1024.0;
+
+                    if (reportTotalBytes + lineBytes < 128.0)
+                    {
+                        report.Append(line);
+                        reportTotalBytes += lineBytes;
+                    }
+                    else
+                    {
+                        reportingMaxed = true;
+                    }
+                }
             }
 
             return new LogData
             {
                 Annotations = annotations.ToArray(),
                 WarningCount = warningCount,
-                ErrorCount = errorCount
+                ErrorCount = errorCount,
+                Report = report.ToString()
             };
         }
 
@@ -158,7 +188,7 @@ namespace BCC.MSBuildLog.Services
             return new Annotation(
                 getFilePath,
                 lineNumber,
-                endLineNumber == 0 ? lineNumber : endLineNumber,
+                endLineNumber,
                 checkWarningLevel,
                 message)
             {
