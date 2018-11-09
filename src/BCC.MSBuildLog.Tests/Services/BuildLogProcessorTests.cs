@@ -217,6 +217,35 @@ namespace BCC.MSBuildLog.Tests.Services
         }
 
         [Fact]
+        public void Should_Create_CheckRun_With_FailureAndWarning()
+        {
+            var annotations = new[]
+            {
+                    new Annotation(
+                        Faker.System.FilePath(),
+                        Faker.Random.Int(),
+                        Faker.Random.Int(), 
+                        CheckWarningLevel.Failure, 
+                        Faker.Lorem.Word()),
+                    new Annotation(
+                        Faker.System.FilePath(),
+                        Faker.Random.Int(),
+                        Faker.Random.Int(), 
+                        CheckWarningLevel.Warning,
+                        Faker.Lorem.Word())
+            };
+
+            var mockBinaryLogProcessor = CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph(), 1, 1);
+            var checkRun = GetCheckRun(mockBinaryLogProcessor, owner: Faker.Internet.UserName(), repo: Faker.Random.Word(), hash: Faker.Random.Guid().ToString());
+
+            checkRun.Conclusion.Should().Be(CheckConclusion.Failure);
+            checkRun.Name.Should().Be("MSBuild Log");
+            checkRun.Title.Should().Be("1 error - 1 warning");
+            checkRun.Summary.Should().NotBeNullOrWhiteSpace();
+            checkRun.Annotations.Should().BeEquivalentTo<Annotation>(annotations);
+        }
+
+        [Fact]
         public void Should_Create_CheckRun_TestConsoleApp1_Warning()
         {
             var annotations = new[]

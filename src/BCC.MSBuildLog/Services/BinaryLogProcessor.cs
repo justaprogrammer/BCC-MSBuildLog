@@ -161,7 +161,7 @@ namespace BCC.MSBuildLog.Services
 
             return new LogData
             {
-                Annotations = annotations.ToArray(),
+                Annotations = annotations.OrderByDescending(annotation => annotation.CheckWarningLevel == CheckWarningLevel.Failure).ToArray(),
                 WarningCount = warningCount,
                 ErrorCount = errorCount,
                 Report = report.ToString()
