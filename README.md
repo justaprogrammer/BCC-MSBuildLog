@@ -3,9 +3,6 @@
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/justaprogrammer/bcc-msbuildlog?svg=true&branch=master)](https://ci.appveyor.com/project/JustAProgrammer/bcc-msbuildlog)
 [![codecov](https://codecov.io/gh/justaprogrammer/bcc-msbuildlog/branch/master/graph/badge.svg)](https://codecov.io/gh/justaprogrammer/bcc-msbuildlog)
 
-#### BCC-Submission
-[![NuGet](http://img.shields.io/nuget/v/bcc-submission.svg)](https://www.nuget.org/packages/bcc-submission)
-
 #### BCC-MSBuildLog
 [![NuGet](http://img.shields.io/nuget/v/bcc-msbuildlog.svg)](https://www.nuget.org/packages/bcc-msbuildlog)
 
