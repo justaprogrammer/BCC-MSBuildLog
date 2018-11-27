@@ -1,4 +1,4 @@
-# Build Cross Check
+# BCC-MSBuildLog
 
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/justaprogrammer/MSBuildLogOctokitChecker?svg=true&branch=master)](https://ci.appveyor.com/project/JustAProgrammer/msbuildlogoctokitchecker)
 [![codecov](https://codecov.io/gh/justaprogrammer/MSBuildLogOctokitChecker/branch/master/graph/badge.svg)](https://codecov.io/gh/justaprogrammer/MSBuildLogOctokitChecker)
@@ -17,8 +17,8 @@ The authors of BuildCrossCheck maintain a hosted version of the source code you 
 Install it by adding the GitHub App: [github.com/apps/build-cross-check](https://github.com/apps/build-cross-check) to your repositories and following the [integration documentation](docs/integrating.md). 
 
 ## Documentation
-
 You can find our documentation [here](docs/readme.md).
+You can find the full documentation for Build Cross Check [here](https://github.com/justaprogrammer/BuildCrossCheck/blob/master/docs/readme.md).
 
 ## Licenses
 - This source is distributed under under the AGPL.
