@@ -7,11 +7,7 @@
 [![NuGet](http://img.shields.io/nuget/v/bcc-msbuildlog.svg)](https://www.nuget.org/packages/bcc-msbuildlog)
 
 ## Overview
-
-## Getting started
-
-The authors of BuildCrossCheck maintain a hosted version of the source code you see here.
-Install it by adding the GitHub App: [github.com/apps/build-cross-check](https://github.com/apps/build-cross-check) to your repositories and following the [integration documentation](docs/integrating.md). 
+BCC-MSBuildLog is a Windows tool to create data for [Build Cross Check](https://github.com/justaprogrammer/BuildCrossCheck) from [MSBuild Log](http://msbuildlog.com/) files.
 
 ## Documentation
 You can find our documentation [here](docs/readme.md).
@@ -22,7 +18,6 @@ You can find the full documentation for Build Cross Check [here](https://github.
 
 ## More information
 - [MSBuild Log](http://msbuildlog.com/)
-- [GitHub Checks API](https://developer.github.com/v3/checks/)
 
 ## Questions?
 
