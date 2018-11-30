@@ -144,7 +144,7 @@ namespace BCC.MSBuildLog.Services
                 { 
                     var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
-                    var line = $"[{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
+                    var line = $"- [{filePath}({lineNumber})](https://github.com/{owner}/{repo}/tree/{hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
                     var lineBytes = Encoding.Unicode.GetByteCount(line) / 1024.0;
 
                     if (reportTotalBytes + lineBytes < 128.0)
