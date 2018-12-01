@@ -6,14 +6,14 @@
 
 | Argument | Required | Description |
 | :--- | --- | :--- |
-| input | :white_check_mark: | Path to MSBuild binary log file |
-| output | :white_check_mark: | Path to output checkrun json file |
-| cloneRoot | :white_check_mark: | Path where build occurred |
-| ownerRepo | :warning: | Owner and Repository name in `owner/repo` format |
-| owner | :warning: | Owner |
-| repo | :warning: | Repository name |
-| hash | :white_check_mark: | Hash of the current commit |
-| configuration | | Path to configuration file |
+| **input** | :white_check_mark: | Path to MSBuild binary log file |
+| **output** | :white_check_mark: | Path to output checkrun json file |
+| **cloneRoot** | :white_check_mark: | Path where build occurred |
+| **ownerRepo** | :warning: | Owner and Repository name in `owner/repo` format |
+| **owner** | :warning: | Owner |
+| **repo** | :warning: | Repository name |
+| **hash** | :white_check_mark: | Hash of the current commit |
+| **configuration** | | Path to configuration file |
 
 **Note**: Owner and repo must be specified. Combined and seperate arguments are provided for ease of integration.
 
