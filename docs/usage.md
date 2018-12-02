@@ -25,7 +25,7 @@ The configuration file is a json document that allows customization of the Check
 
 Here we are taking `CS0219` which is normally a warning and forcing it to be reported as an error. If used in combination with branch protection settings, this could be used to prevent a Pull Request from being merged.
 
-```json
+```
 {
     'rules': [
         {
