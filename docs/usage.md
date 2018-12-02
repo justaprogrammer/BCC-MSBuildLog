@@ -18,3 +18,32 @@
 **Note**: Owner and repo must be specified. Combined and seperate arguments are provided for ease of integration.
 
 ## Configuration
+
+The configuration file is a json document that allows customization of the Check Run output.
+
+### Example
+
+Here we are taking `CS0219` which is normally a warning and forcing it to be reported as an error. If used in combination with branch protection settings, this could be used to prevent a Pull Request from being merged.
+
+```json
+{
+    rules: [
+        {
+            code: 'CS0219',
+            reportAs: 'error'
+        }
+    ]
+}
+```
+
+### Schema
+
+#### LogAnalyzerRule
+
++ code (string, required) - The MSBuild warning/error code to match against
++ reportAs: asIs, ignore, notice, warning, error (enum, required)
+
+#### CheckRunConfiguration
+
++ rules (array[LogAnalyzerRule]) - Array of rules
++ name (string) 
