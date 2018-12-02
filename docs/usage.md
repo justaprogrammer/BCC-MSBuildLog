@@ -27,10 +27,10 @@ Here we are taking `CS0219` which is normally a warning and forcing it to be rep
 
 ```json
 {
-    rules: [
+    'rules': [
         {
-            code: 'CS0219',
-            reportAs: 'error'
+            'code': 'CS0219',
+            'reportAs': 'error'
         }
     ]
 }
