@@ -382,6 +382,23 @@ namespace BCC.MSBuildLog.Tests.Services
             logData.Report.Should().BeNullOrWhiteSpace();
         }
 
+        [Fact]
+        public void Should_ThrowWhen_BuildPath_Outisde_CloneRoot()
+        {
+            var invalidOperationException = Assert.Throws<InvalidOperationException>(() =>
+            {
+                ProcessLog("testconsoleapp1-1warning.binlog", @"C:\projects\testconsoleapp2\", Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
+            });
+
+            invalidOperationException.Message.Should().Be(@"FilePath `C:\projects\testconsoleapp1\TestConsoleApp1\Program.cs` is not a child of `C:\projects\testconsoleapp2\`");
+
+            invalidOperationException = Assert.Throws<InvalidOperationException>(() =>
+            {
+                ProcessLog("testconsoleapp1-1error.binlog", @"C:\projects\testconsoleapp2\", Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
+            });
+            invalidOperationException.Message.Should().Be(@"FilePath `C:\projects\testconsoleapp1\TestConsoleApp1\Program.cs` is not a child of `C:\projects\testconsoleapp2\`");
+        }
+
         private LogData ProcessLog(string resourceName, string cloneRoot, string userName, string repo, string hash, CheckRunConfiguration checkRunConfiguration = null)
         {
             var resourcePath = TestUtils.GetResourcePath(resourceName);
