@@ -1,8 +1,8 @@
 ﻿extern alias StructuredLogger;
 using System.Collections.Generic;
-using StructuredLogger::Microsoft.Build.Logging;
+using Record = StructuredLogger::Microsoft.Build.Logging.Record;
 
-namespace BCC.MSBuildLog.Services
+namespace BCC.MSBuildLog.Interfaces
 {
     public interface IBinaryLogReader
     {

@@ -13,6 +13,7 @@ using JetBrains.Annotations;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using StructuredLogger::Microsoft.Build.Logging;
 
 namespace BCC.MSBuildLog.Services
 {
@@ -45,7 +46,6 @@ namespace BCC.MSBuildLog.Services
             foreach (var record in _binaryLogReader.ReadRecords(binLogPath))
             {
                 var buildEventArgs = record.Args;
-
                 var buildWarning = buildEventArgs as BuildWarningEventArgs;
                 var buildError = buildEventArgs as BuildErrorEventArgs;
 
@@ -56,7 +56,6 @@ namespace BCC.MSBuildLog.Services
                 string buildCode;
                 string projectFile;
                 string file;
-                string title;
                 string message;
                 int lineNumber;
                 int endLineNumber;
@@ -107,7 +106,7 @@ namespace BCC.MSBuildLog.Services
                 }
 
                 var filePath = GetFilePath(cloneRoot, projectFile ?? file, file);
-                title = $"{code}: {filePath}({lineNumber})";
+                var title = $"{code}: {filePath}({lineNumber})";
 
                 ReportAs reportAs = ReportAs.AsIs;
                 if (ruleDictionary?.TryGetValue(buildCode, out reportAs) ?? false)
