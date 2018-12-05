@@ -214,10 +214,10 @@ namespace BCC.MSBuildLog.Services
                 return GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
             }
 
-            var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            if (filePath.IsSubPathOf(userProfilePath))
+            var dotNugetPosition = filePath.IndexOf(".nuget");
+            if (dotNugetPosition != -1)
             {
-                return GetRelativePath(filePath, userProfilePath).Replace("\\", "/");
+                return filePath.Substring(dotNugetPosition).Replace("\\", "/");
             }
 
             throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{cloneRoot}`");
