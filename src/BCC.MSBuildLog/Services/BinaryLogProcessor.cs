@@ -13,6 +13,7 @@ using JetBrains.Annotations;
 using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using StructuredLogger::Microsoft.Build.Logging;
 
 namespace BCC.MSBuildLog.Services
 {
@@ -42,9 +43,9 @@ namespace BCC.MSBuildLog.Services
             var errorCount = 0;
             var annotations = new List<Annotation>();
             var report = new StringBuilder();
-            var buildEventArgses = ReadRecords(binLogPath);
-            foreach (var buildEventArgs in buildEventArgses)
+            foreach (var record in _binaryLogReader.ReadRecords(binLogPath))
             {
+                var buildEventArgs = record.Args;
                 var buildWarning = buildEventArgs as BuildWarningEventArgs;
                 var buildError = buildEventArgs as BuildErrorEventArgs;
 
@@ -165,32 +166,6 @@ namespace BCC.MSBuildLog.Services
                 ErrorCount = errorCount,
                 Report = report.ToString()
             };
-        }
-
-        private IEnumerable<BuildEventArgs> ReadRecords(string binLogPath)
-        {
-            var errors = new List<BuildErrorEventArgs>();
-            var warnings = new List<BuildWarningEventArgs>();
-
-            foreach (var record in _binaryLogReader.ReadRecords(binLogPath))
-            {
-                var buildEventArgs = record.Args;
-
-                var buildWarning = buildEventArgs as BuildWarningEventArgs;
-                var buildError = buildEventArgs as BuildErrorEventArgs;
-
-                if (buildError != null)
-                {
-                    errors.Add(buildError);
-                }
-
-                if (buildWarning != null)
-                {
-                    warnings.Add(buildWarning);
-                }
-            }
-
-            return errors.Cast<BuildEventArgs>().Concat(warnings);
         }
 
         private Annotation CreateAnnotation(CheckWarningLevel checkWarningLevel, [NotNull] string cloneRoot, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
