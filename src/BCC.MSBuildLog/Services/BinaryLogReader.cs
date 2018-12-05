@@ -13,7 +13,7 @@ namespace BCC.MSBuildLog.Services
         {
             return new BinaryLogReplayEventSource()
                 .ReadRecords(binLogPath)
-                .Where(record => record.Args is BuildWarningEventArgs || record.Args is BuildErrorEventArgs)
+                .Where(record => record.Args is BuildMessageEventArgs ||  record.Args is BuildWarningEventArgs || record.Args is BuildErrorEventArgs)
                 .OrderByDescending(record => record.Args is BuildErrorEventArgs);
         }
     }

@@ -39,8 +39,10 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
+
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
@@ -74,8 +76,10 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
+
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
@@ -109,8 +113,10 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
+
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
@@ -144,8 +150,10 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
+
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
@@ -179,8 +187,10 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-1warning.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10), checkRunConfiguration);
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
+
             logData.Annotations.Should().AllBeEquivalentTo(
                 new Annotation(
                     "TestConsoleApp1/Program.cs",
@@ -248,6 +258,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\testconsoleapp1\";
             var logData = ProcessLog("testconsoleapp1-codeanalysis.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1);
 
@@ -272,6 +283,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\msbuildlogoctokitchecker\";
             var logData = ProcessLog("msbloc.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(10);
 
@@ -308,6 +320,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"C:\projects\octokit-graphql\";
             var logData = ProcessLog("octokit.graphql.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(803);
 
@@ -344,6 +357,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"c:\users\spade\projects\github\visualstudio\";
             var logData = ProcessLog("visualstudio.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(4);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1556);
 
@@ -359,6 +373,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"c:\users\spade\projects\github\visualstudio\";
             var logData = ProcessLog("visualstudio-recent.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(22);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(1304);
 
@@ -374,6 +389,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var cloneRoot = @"c:\github\dbatools\bin\projects\dbatools\";
             var logData = ProcessLog("dbatools.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
 
+            logData.MessageCount.Should().Be(0);
             logData.ErrorCount.Should().Be(0);
             logData.WarningCount.Should().Be(0);
 
