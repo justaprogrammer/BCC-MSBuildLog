@@ -52,6 +52,9 @@
     <None Update="Resources\testconsoleapp1-codeanalysis.binlog">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\visualstudio-recent.binlog">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\visualstudio.binlog">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

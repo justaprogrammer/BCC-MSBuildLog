@@ -209,12 +209,18 @@ namespace BCC.MSBuildLog.Services
             }
 
             var filePath = Path.Combine(Path.GetDirectoryName(projectFile), file);
-            if (!filePath.IsSubPathOf(cloneRoot))
+            if (filePath.IsSubPathOf(cloneRoot))
             {
-                throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{cloneRoot}`");
+                return GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
             }
 
-            return GetRelativePath(filePath, cloneRoot).Replace("\\", "/");
+            var dotNugetPosition = filePath.IndexOf(".nuget");
+            if (dotNugetPosition != -1)
+            {
+                return filePath.Substring(dotNugetPosition).Replace("\\", "/");
+            }
+
+            throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{cloneRoot}`");
         }
 
         private string GetRelativePath(string filespec, string folder)

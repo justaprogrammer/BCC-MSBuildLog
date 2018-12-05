@@ -354,6 +354,21 @@ namespace BCC.MSBuildLog.Tests.Services
         }
 
         [Fact]
+        public void Should_Parse_GitHubVisualStudio_Recent()
+        {
+            var cloneRoot = @"c:\users\spade\projects\github\visualstudio\";
+            var logData = ProcessLog("visualstudio-recent.binlog", cloneRoot, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
+
+            logData.ErrorCount.Should().Be(0);
+            logData.WarningCount.Should().Be(1304);
+
+            logData.Report.Should().NotBeNullOrWhiteSpace();
+
+            var reportKbytes = Encoding.Unicode.GetByteCount(logData.Report) / 1024.0;
+            reportKbytes.Should().BeLessThan(128.0);
+        }
+
+        [Fact]
         public void Should_Parse_DBATools()
         {
             var cloneRoot = @"c:\github\dbatools\bin\projects\dbatools\";
