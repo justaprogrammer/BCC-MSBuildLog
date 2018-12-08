@@ -38,12 +38,12 @@ Here we are taking `CS0219` which is normally a warning and forcing it to be rep
 
 ### Schema
 
-#### LogAnalyzerRule
+#### CheckRunConfiguration <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/CheckRunConfiguration.cs)</sup></sub>
+
++ rules (array[LogAnalyzerRule]) - Array of rules
++ name (string)
+
+#### LogAnalyzerRule <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/LogAnalyzerRule.cs)</sup></sub>
 
 + code (string, required) - The MSBuild warning/error code to match against
 + reportAs: asIs, ignore, notice, warning, error (enum, required)
-
-#### CheckRunConfiguration
-
-+ rules (array[LogAnalyzerRule]) - Array of rules
-+ name (string) 
