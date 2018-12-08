@@ -41,7 +41,7 @@ Here we are taking `CS0219` which is normally a warning and forcing it to be rep
 #### CheckRunConfiguration <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/CheckRunConfiguration.cs)</sup></sub>
 
 + rules (array[LogAnalyzerRule]) - Array of rules
-+ name (string) 
++ name (string)
 
 #### LogAnalyzerRule <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/LogAnalyzerRule.cs)</sup></sub>
 
