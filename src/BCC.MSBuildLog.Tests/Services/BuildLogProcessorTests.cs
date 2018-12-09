@@ -108,7 +108,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.System.FilePath(),
                     Faker.Random.Int(),
                     Faker.Random.Int(),
-                    CheckWarningLevel.Warning,
+                    AnnotationLevel.Warning,
                     Faker.Lorem.Word())
             };
 
@@ -130,7 +130,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.System.FilePath(),
                     Faker.Random.Int(),
                     Faker.Random.Int(), 
-                    CheckWarningLevel.Warning, 
+                    AnnotationLevel.Warning, 
                     Faker.Lorem.Word())
             };
 
@@ -174,7 +174,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.System.FilePath(),
                     Faker.Random.Int(),
                     Faker.Random.Int(), 
-                    CheckWarningLevel.Failure, Faker.Lorem.Word())
+                    AnnotationLevel.Failure, Faker.Lorem.Word())
             };
 
             var mockBinaryLogProcessor = CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph(), 0, 1);
@@ -196,13 +196,13 @@ namespace BCC.MSBuildLog.Tests.Services
                         Faker.System.FilePath(),
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
-                        CheckWarningLevel.Warning,
+                        AnnotationLevel.Warning,
                         Faker.Lorem.Word()),
                     new Annotation(
                         Faker.System.FilePath(),
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
-                        CheckWarningLevel.Failure, 
+                        AnnotationLevel.Failure, 
                         Faker.Lorem.Word())
             };
 
@@ -225,7 +225,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     "TestConsoleApp1/Program.cs",
                     13,
                     13,
-                    CheckWarningLevel.Warning,
+                    AnnotationLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -254,7 +254,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     "TestConsoleApp1/Program.cs",
                     13,
                     13,
-                    CheckWarningLevel.Failure,
+                    AnnotationLevel.Failure,
                     "; expected")
                 {
                     Title = "CS1002: TestConsoleApp1/Program.cs(13)"
@@ -283,7 +283,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     "TestConsoleApp1/Program.cs",
                     20,
                     20,
-                    CheckWarningLevel.Warning,
+                    AnnotationLevel.Warning,
                     "Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
                 {
                     Title = "CA2213: TestConsoleApp1/Program.cs(20)"

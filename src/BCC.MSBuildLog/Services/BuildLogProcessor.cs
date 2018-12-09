@@ -10,6 +10,8 @@ using BCC.MSBuildLog.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace BCC.MSBuildLog.Services
 {
@@ -57,14 +59,23 @@ namespace BCC.MSBuildLog.Services
                     throw new InvalidOperationException($"Content of configuration file `{configurationFile}` is null or empty.");
                 }
 
-                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString);
+                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString, new JsonSerializerSettings
+                {
+                    Formatting = Formatting.None,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Converters = new List<JsonConverter>
+                    {
+                        new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() }
+                    },
+                    MissingMemberHandling = MissingMemberHandling.Error
+                });
             }
 
             var dateTimeOffset = DateTimeOffset.Now;
             var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, owner, repo, hash, configuration);
 
             var hasAnyFailure = logData.Annotations.Any() &&
-                                logData.Annotations.Any(annotation => annotation.CheckWarningLevel == CheckWarningLevel.Failure);
+                                logData.Annotations.Any(annotation => annotation.AnnotationLevel == AnnotationLevel.Failure);
 
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(logData.ErrorCount.ToString());

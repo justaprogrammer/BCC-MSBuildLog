@@ -52,7 +52,7 @@ namespace BCC.MSBuildLog.Services
                 if (buildWarning == null && buildError == null)
                     continue;
 
-                CheckWarningLevel checkWarningLevel;
+                AnnotationLevel checkWarningLevel;
                 string buildCode;
                 string projectFile;
                 string file;
@@ -66,7 +66,7 @@ namespace BCC.MSBuildLog.Services
                     warningCount++;
                     recordTypeString = "Warning";
 
-                    checkWarningLevel = CheckWarningLevel.Warning;
+                    checkWarningLevel = AnnotationLevel.Warning;
                     buildCode = buildWarning.Code;
                     projectFile = buildWarning.ProjectFile;
                     file = buildWarning.File;
@@ -80,7 +80,7 @@ namespace BCC.MSBuildLog.Services
                     errorCount++;
                     recordTypeString = "Error";
 
-                    checkWarningLevel = CheckWarningLevel.Failure;
+                    checkWarningLevel = AnnotationLevel.Failure;
                     buildCode = buildError.Code;
                     projectFile = buildError.ProjectFile;
                     file = buildError.File;
@@ -118,13 +118,13 @@ namespace BCC.MSBuildLog.Services
                         case ReportAs.AsIs:
                             break;
                         case ReportAs.Notice:
-                            checkWarningLevel = CheckWarningLevel.Notice;
+                            checkWarningLevel = AnnotationLevel.Notice;
                             break;
                         case ReportAs.Warning:
-                            checkWarningLevel = CheckWarningLevel.Warning;
+                            checkWarningLevel = AnnotationLevel.Warning;
                             break;
                         case ReportAs.Error:
-                            checkWarningLevel = CheckWarningLevel.Failure;
+                            checkWarningLevel = AnnotationLevel.Failure;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -167,7 +167,7 @@ namespace BCC.MSBuildLog.Services
             };
         }
 
-        private Annotation CreateAnnotation(CheckWarningLevel checkWarningLevel, [NotNull] string cloneRoot, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
+        private Annotation CreateAnnotation(AnnotationLevel checkWarningLevel, [NotNull] string cloneRoot, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
         {
             if (cloneRoot == null)
             {
