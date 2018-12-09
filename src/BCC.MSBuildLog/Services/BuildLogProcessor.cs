@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
+using BCC.Core.Extensions;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Interfaces;
 using BCC.MSBuildLog.Model;
@@ -74,7 +75,7 @@ namespace BCC.MSBuildLog.Services
             stringBuilder.Append(" ");
             stringBuilder.Append(logData.WarningCount == 1 ? "warning" : "warnings");
 
-            var contents = JsonConvert.SerializeObject(new CreateCheckRun
+            var createCheckRun = new CreateCheckRun
             {
                 Annotations = logData.Annotations,
                 Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
@@ -83,7 +84,9 @@ namespace BCC.MSBuildLog.Services
                 Summary = logData.Report,
                 Name = configuration?.Name ?? "MSBuild Log",
                 Title = stringBuilder.ToString(),
-            });
+            };
+
+            var contents = createCheckRun.ToJson();
 
             _fileSystem.File.WriteAllText(outputFile, contents);
         }
