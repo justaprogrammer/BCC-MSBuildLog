@@ -75,7 +75,7 @@ namespace BCC.MSBuildLog.Services
             var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, owner, repo, hash, configuration);
 
             var hasAnyFailure = logData.Annotations.Any() &&
-                                logData.Annotations.Any(annotation => annotation.CheckWarningLevel == CheckWarningLevel.Failure);
+                                logData.Annotations.Any(annotation => annotation.AnnotationLevel == AnnotationLevel.Failure);
 
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(logData.ErrorCount.ToString());
