@@ -38,7 +38,7 @@ Target.create "Clean" (fun _ ->
 )
 
 Target.create "Build" (fun _ ->
-  CreateProcess.fromRawWindowsCommandLine "gitversion" "/updateassemblyinfo src\common\SharedAssemblyInfo.cs /ensureassemblyinfo"
+  CreateProcess.fromRawCommandLine "gitversion" "/updateassemblyinfo src\common\SharedAssemblyInfo.cs /ensureassemblyinfo"
   |> Proc.run
   |> ignore
 
@@ -92,14 +92,14 @@ Target.create "Coverage" (fun _ ->
 
             sprintf "%s --target \"dotnet\" --targetargs \"test -c Release -f %s %s --no-build\" --format opencover --output \"./%s\""
                 dllPath framework projectPath reportPath
-            |> CreateProcess.fromRawWindowsCommandLine "coverlet"
+            |> CreateProcess.fromRawCommandLine "coverlet"
             |> Proc.run
             |> ignore
 
             Trace.publish ImportData.BuildArtifact reportPath
 
             if isAppveyor then
-                CreateProcess.fromRawWindowsCommandLine "codecov" (sprintf "-f \"%s\"" reportPath)
+                CreateProcess.fromRawCommandLine "codecov" (sprintf "-f \"%s\"" reportPath)
                 |> Proc.run
                 |> ignore
         )
