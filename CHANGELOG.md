@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Features
+- Adding a changelog
+
 
 <a name="v0.1.9"></a>
 ## [v0.1.9] - 2018-12-09
