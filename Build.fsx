@@ -13,6 +13,7 @@ BuildServer.install [
     AppVeyor.Installer
 ]
 
+let isAppveyor = AppVeyor.detect()
 let gitVersion = GitVersion.generateProperties id
 
 Target.create "Clean" (fun _ ->
