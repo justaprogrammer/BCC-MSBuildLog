@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using BCC.Core.Services;
 using BCC.MSBuildLog.Interfaces;
 using Fclp;
 
@@ -8,11 +9,13 @@ namespace BCC.MSBuildLog.Services
     public class CommandLineParser: ICommandLineParser
     {
         private readonly Action<string> _helpCallback;
+        private readonly IEnvironmentService _environmentService;
         private readonly FluentCommandLineParser<ApplicationArguments> _parser;
 
-        public CommandLineParser(Action<string> helpCallback)
+        public CommandLineParser(Action<string> helpCallback, IEnvironmentService environmentService)
         {
             _helpCallback = helpCallback;
+            _environmentService = environmentService;
             _parser = new FluentCommandLineParser<ApplicationArguments>();
 
             _parser.Setup(arg => arg.InputFile)
@@ -31,8 +34,7 @@ namespace BCC.MSBuildLog.Services
 
             _parser.Setup(arg => arg.CloneRoot)
                 .As("cloneRoot")
-                .WithDescription("Clone root")
-                .Required();
+                .WithDescription("Clone root");
 
             _parser.Setup(arg => arg.OwnerRepo)
                 .As("ownerRepo")
@@ -48,8 +50,7 @@ namespace BCC.MSBuildLog.Services
 
             _parser.Setup(arg => arg.Hash)
                 .As("hash")
-                .WithDescription("Hash")
-                .Required();
+                .WithDescription("Hash");
 
             _parser.SetupHelp("?", "help")
                 .WithHeader(typeof(CommandLineParser).Assembly.FullName)
@@ -72,7 +73,7 @@ namespace BCC.MSBuildLog.Services
 
             ApplicationArguments OutputError()
             {
-                new CommandLineParser(_helpCallback).Parse(new string[0]);
+                new CommandLineParser(_helpCallback, _environmentService).Parse(new string[0]);
                 return null;
             }
 
@@ -92,8 +93,17 @@ namespace BCC.MSBuildLog.Services
                 }
             }
 
+            var environmentDetails = _environmentService.GetEnvironmentDetails();
+
+            applicationArguments.Owner = applicationArguments.Owner ?? environmentDetails?.GitHubOwner;
+            applicationArguments.Repo = applicationArguments.Repo ?? environmentDetails?.GitHubRepo;
+            applicationArguments.Hash = applicationArguments.Repo ?? environmentDetails?.CommitHash;
+            applicationArguments.CloneRoot = applicationArguments.CloneRoot ?? environmentDetails?.BuildFolder;
+
             if (string.IsNullOrWhiteSpace(applicationArguments.Owner) ||
-                string.IsNullOrWhiteSpace(applicationArguments.Repo))
+                string.IsNullOrWhiteSpace(applicationArguments.Repo) ||
+                string.IsNullOrWhiteSpace(applicationArguments.Hash) ||
+                string.IsNullOrWhiteSpace(applicationArguments.CloneRoot))
             {
                 return OutputError();
             }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
+using BCC.Core.Services;
 using BCC.MSBuildLog.Interfaces;
 using BCC.MSBuildLog.Services;
 
@@ -16,7 +17,7 @@ namespace BCC.MSBuildLog
             var fileSystem = new FileSystem();
             var binaryLogProcessor = new BinaryLogProcessor(new BinaryLogReader());
             var buildLogProcessor = new BuildLogProcessor(fileSystem, binaryLogProcessor);
-            var commandLineParser = new CommandLineParser(System.Console.WriteLine);
+            var commandLineParser = new CommandLineParser(System.Console.WriteLine, new EnvironmentService(new EnvironmentProvider()));
             var program = new Program(commandLineParser, buildLogProcessor);
             return program.Run(args) ? 0 : 1;
         }
