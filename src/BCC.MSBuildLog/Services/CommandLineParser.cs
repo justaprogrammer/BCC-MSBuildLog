@@ -93,12 +93,10 @@ namespace BCC.MSBuildLog.Services
                 }
             }
 
-            var environmentDetails = _environmentService.GetEnvironmentDetails();
-
-            applicationArguments.Owner = applicationArguments.Owner ?? environmentDetails?.GitHubOwner;
-            applicationArguments.Repo = applicationArguments.Repo ?? environmentDetails?.GitHubRepo;
-            applicationArguments.Hash = applicationArguments.Repo ?? environmentDetails?.CommitHash;
-            applicationArguments.CloneRoot = applicationArguments.CloneRoot ?? environmentDetails?.BuildFolder;
+            applicationArguments.Owner = applicationArguments.Owner ?? _environmentService?.GitHubOwner;
+            applicationArguments.Repo = applicationArguments.Repo ?? _environmentService?.GitHubRepo;
+            applicationArguments.Hash = applicationArguments.Hash ?? _environmentService?.CommitHash;
+            applicationArguments.CloneRoot = applicationArguments.CloneRoot ?? _environmentService?.BuildFolder;
 
             if (string.IsNullOrWhiteSpace(applicationArguments.Owner) ||
                 string.IsNullOrWhiteSpace(applicationArguments.Repo) ||

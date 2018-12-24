@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCC-Core" Version="0.1.8-pullrequest0011-0019" />
+    <PackageReference Include="BCC-Core" Version="0.1.8-pullrequest0011-0023" />
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" Condition="'$(TargetFramework)' == 'net471'" />
     <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
