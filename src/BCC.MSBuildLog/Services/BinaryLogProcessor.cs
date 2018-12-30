@@ -93,6 +93,8 @@ namespace BCC.MSBuildLog.Services
 
                 endLineNumber = endLineNumber == 0 ? lineNumber : endLineNumber;
 
+                buildCode = buildCode ?? string.Empty;
+
                 if (buildCode.StartsWith("MSB"))
                 {
                     if (projectFile == null)
@@ -103,6 +105,12 @@ namespace BCC.MSBuildLog.Services
                     {
                         file = projectFile;
                     }
+                }
+                else if (file.Contains(Path.Combine("MSBuild", "Xamarin", "iOS")) && buildWarning != null)
+                {
+                    // Ignore Visual Studio Xamarin connection warnings.
+                    warningCount--;
+                    continue;
                 }
 
                 var filePath = GetFilePath(cloneRoot, projectFile ?? file, file);

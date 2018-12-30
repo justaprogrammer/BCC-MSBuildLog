@@ -399,6 +399,20 @@ namespace BCC.MSBuildLog.Tests.Services
             invalidOperationException.Message.Should().Be(@"FilePath `C:\projects\testconsoleapp1\TestConsoleApp1\Program.cs` is not a child of `C:\projects\testconsoleapp2\`");
         }
 
+        [Fact]
+        public void Should_Ignore_Xamarin_iOS_Connection_Warnings()
+        {
+            var root = @"d:\source\experiments\iossampleapp";
+            var logData = ProcessLog("visualstudio.ios.binlog", root, Faker.Internet.UserName(), Faker.Random.Word(), Faker.Random.String(10));
+        
+            logData.ErrorCount.Should().Be(0);
+            logData.WarningCount.Should().Be(0);
+
+            logData.Annotations.Length.Should().Be(0);
+
+            logData.Report.Should().BeNullOrWhiteSpace();
+        }
+
         private LogData ProcessLog(string resourceName, string cloneRoot, string userName, string repo, string hash, CheckRunConfiguration checkRunConfiguration = null)
         {
             var resourcePath = TestUtils.GetResourcePath(resourceName);
