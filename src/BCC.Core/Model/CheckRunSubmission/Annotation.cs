@@ -7,6 +7,7 @@ namespace BCC.Core.Model.CheckRunSubmission
     {
         public string Filename { get; set;  }
         public AnnotationLevel AnnotationLevel { get; set; }
+        public BuildEventLevel BuildEventLevel { get; set; }
         public string Title { get; set; }
         public string RawDetails { get; set; }
         public string Message { get; set; }
@@ -19,10 +20,11 @@ namespace BCC.Core.Model.CheckRunSubmission
         }
 
         public Annotation(string filename,
-            int startLine, int endLine, AnnotationLevel annotationLevel, string message)
+            int startLine, int endLine, AnnotationLevel annotationLevel, BuildEventLevel buildEventLevel, string message)
         {
             Filename = filename;
             AnnotationLevel = annotationLevel;
+            BuildEventLevel = buildEventLevel;
             Message = message;
             StartLine = startLine;
             EndLine = endLine;
@@ -35,6 +37,7 @@ namespace BCC.Core.Model.CheckRunSubmission
 
             return Filename == other.Filename &&
                    AnnotationLevel == other.AnnotationLevel &&
+                   BuildEventLevel == other.BuildEventLevel &&
                    Title == other.Title &&
                    RawDetails == other.RawDetails &&
                    Message == other.Message &&

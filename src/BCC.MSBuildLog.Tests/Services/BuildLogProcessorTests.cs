@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
+using BuildEventLevel = BCC.Core.Model.CheckRunSubmission.BuildEventLevel;
 
 namespace BCC.MSBuildLog.Tests.Services
 {
@@ -109,6 +110,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.Random.Int(),
                     Faker.Random.Int(),
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     Faker.Lorem.Word())
             };
 
@@ -131,6 +133,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.Random.Int(),
                     Faker.Random.Int(), 
                     AnnotationLevel.Warning, 
+                    BuildEventLevel.Warning,
                     Faker.Lorem.Word())
             };
 
@@ -174,7 +177,9 @@ namespace BCC.MSBuildLog.Tests.Services
                     Faker.System.FilePath(),
                     Faker.Random.Int(),
                     Faker.Random.Int(), 
-                    AnnotationLevel.Failure, Faker.Lorem.Word())
+                    AnnotationLevel.Failure,
+                    BuildEventLevel.Error,
+                    Faker.Lorem.Word())
             };
 
             var mockBinaryLogProcessor = CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph(), 0, 1);
@@ -197,12 +202,14 @@ namespace BCC.MSBuildLog.Tests.Services
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
                         AnnotationLevel.Warning,
+                        BuildEventLevel.Warning,
                         Faker.Lorem.Word()),
                     new Annotation(
                         Faker.System.FilePath(),
                         Faker.Random.Int(),
                         Faker.Random.Int(), 
-                        AnnotationLevel.Failure, 
+                        AnnotationLevel.Failure,
+                        BuildEventLevel.Warning,
                         Faker.Lorem.Word())
             };
 
@@ -226,6 +233,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -255,6 +263,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Failure,
+                    BuildEventLevel.Error,
                     "; expected")
                 {
                     Title = "CS1002: TestConsoleApp1/Program.cs(13)"
@@ -284,6 +293,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     20,
                     20,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
                 {
                     Title = "CA2213: TestConsoleApp1/Program.cs(20)"

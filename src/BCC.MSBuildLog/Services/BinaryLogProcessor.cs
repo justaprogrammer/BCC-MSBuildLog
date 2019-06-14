@@ -50,11 +50,11 @@ namespace BCC.MSBuildLog.Services
 
                 annotations.Add(annotationAndLine.Item1);
 
-                if (annotationAndLine.Item1.AnnotationLevel == AnnotationLevel.Warning)
+                if (annotationAndLine.Item1.BuildEventLevel == BuildEventLevel.Warning)
                 {
                     warningCount++;
                 }
-                else if(annotationAndLine.Item1.AnnotationLevel == AnnotationLevel.Failure)
+                else if(annotationAndLine.Item1.BuildEventLevel == BuildEventLevel.Error)
                 {
                     errorCount++;
                 }
@@ -96,7 +96,7 @@ namespace BCC.MSBuildLog.Services
             if (buildWarning == null && buildError == null) return (null, null);
 
             AnnotationLevel checkWarningLevel;
-            BuildEventLevel buildEventLevel;
+            var buildEventLevel = BuildEventLevel.Warning;
             string buildCode;
             string projectFile;
             string file;
@@ -121,6 +121,7 @@ namespace BCC.MSBuildLog.Services
                 recordTypeString = "Error";
 
                 checkWarningLevel = AnnotationLevel.Failure;
+                buildEventLevel = BuildEventLevel.Error;
                 buildCode = buildError.Code;
                 projectFile = buildError.ProjectFile;
                 file = buildError.File;
@@ -177,7 +178,8 @@ namespace BCC.MSBuildLog.Services
                 message,
                 lineNumber,
                 endLineNumber,
-                filePath);
+                filePath,
+                buildEventLevel);
 
             var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
@@ -186,7 +188,9 @@ namespace BCC.MSBuildLog.Services
             return (annotation, line);
         }
 
-        private Annotation CreateAnnotation(AnnotationLevel checkWarningLevel, [NotNull] string cloneRoot, [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
+        private Annotation CreateAnnotation(AnnotationLevel checkWarningLevel, [NotNull] string cloneRoot,
+            [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath,
+            BuildEventLevel buildEventLevel)
         {
             if (cloneRoot == null)
             {
@@ -208,6 +212,7 @@ namespace BCC.MSBuildLog.Services
                 lineNumber,
                 endLineNumber,
                 checkWarningLevel,
+                buildEventLevel,
                 message)
             {
                 Title = title

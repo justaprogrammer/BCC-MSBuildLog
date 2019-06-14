@@ -47,6 +47,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -82,6 +83,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -117,6 +119,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -152,6 +155,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Notice,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -187,6 +191,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Failure,
+                    BuildEventLevel.Warning,
                     "The variable 'hello' is assigned but its value is never used")
                 {
                     Title = "CS0219: TestConsoleApp1/Program.cs(13)"
@@ -233,6 +238,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     13,
                     13,
                     AnnotationLevel.Failure,
+                    BuildEventLevel.Error,
                     "; expected")
                 {
                     Title = "CS1002: TestConsoleApp1/Program.cs(13)"
@@ -257,6 +263,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     20,
                     20,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "Microsoft.Usage : 'Program.MyClass' contains field 'Program.MyClass._inner' that is of IDisposable type: 'Program.MyOTherClass'. Change the Dispose method on 'Program.MyClass' to call Dispose or Close on this field.")
                 {
                     Title = "CA2213: TestConsoleApp1/Program.cs(20)"
@@ -283,6 +290,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     56,
                     56,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'filename' is assigned but its value is never used")
                 {
                     Title = "CS0219: MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs(56)"
@@ -294,6 +302,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     83,
                     83,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "The variable 'filename' is assigned but its value is never used")
                 {
                     Title = "CS0219: MSBLOC.Core.Tests/Services/BinaryLogProcessorTests.cs(83)"
@@ -319,6 +328,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     43,
                     43,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "Missing XML comment for publicly visible type or member 'Connection.Uri'")
                 {
                     Title = "CS1591: Octokit.GraphQL.Core/Connection.cs(43)"
@@ -330,6 +340,7 @@ namespace BCC.MSBuildLog.Tests.Services
                     44,
                     44,
                     AnnotationLevel.Warning,
+                    BuildEventLevel.Warning,
                     "Missing XML comment for publicly visible type or member 'Connection.CredentialStore'")
                 {
                     Title = "CS1591: Octokit.GraphQL.Core/Connection.cs(44)"

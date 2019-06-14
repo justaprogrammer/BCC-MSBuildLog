@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FFB46A17
 		..\paket.dependencies = ..\paket.dependencies
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCC.MSBuildLog.Logger", "BCC.MSBuildLog.Logger\BCC.MSBuildLog.Logger.csproj", "{F0466424-34F2-4D44-A0EA-E9811C3A3685}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.Core", "BCC.Core\BCC.Core.csproj", "{8EDD3FC6-1720-4B07-A471-3408D20F5066}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.Core.Tests", "BCC.Core.Tests\BCC.Core.Tests.csproj", "{83C46227-F6DE-45F9-B9C9-25373757ED2D}"
@@ -27,6 +25,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.Submission", "BCC.Submission\BCC.Submission.csproj", "{5101D12E-9603-4870-8F2D-B845891DBF0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCC.Submission.Tests", "BCC.Submission.Tests\BCC.Submission.Tests.csproj", "{B2172AD5-78D3-4372-B138-C4112E6B000C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCC.MSBuildLog.Logger", "BCC.MSBuildLog.Logger\BCC.MSBuildLog.Logger.csproj", "{A20DFA67-D7F0-4C80-8689-2366D0B3FB4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +42,6 @@ Global
 		{55EB814D-E978-4EDA-A22C-353ED22FB2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55EB814D-E978-4EDA-A22C-353ED22FB2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55EB814D-E978-4EDA-A22C-353ED22FB2FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0466424-34F2-4D44-A0EA-E9811C3A3685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0466424-34F2-4D44-A0EA-E9811C3A3685}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0466424-34F2-4D44-A0EA-E9811C3A3685}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0466424-34F2-4D44-A0EA-E9811C3A3685}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EDD3FC6-1720-4B07-A471-3408D20F5066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EDD3FC6-1720-4B07-A471-3408D20F5066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDD3FC6-1720-4B07-A471-3408D20F5066}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,6 +58,10 @@ Global
 		{B2172AD5-78D3-4372-B138-C4112E6B000C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2172AD5-78D3-4372-B138-C4112E6B000C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2172AD5-78D3-4372-B138-C4112E6B000C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20DFA67-D7F0-4C80-8689-2366D0B3FB4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20DFA67-D7F0-4C80-8689-2366D0B3FB4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20DFA67-D7F0-4C80-8689-2366D0B3FB4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20DFA67-D7F0-4C80-8689-2366D0B3FB4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

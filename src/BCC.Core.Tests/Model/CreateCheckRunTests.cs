@@ -23,6 +23,7 @@ namespace BCC.Core.Tests.Model
                         startLine: lineNumber,
                         endLine: lineNumber,
                         annotationLevel: f.PickRandom<AnnotationLevel>(),
+                        buildEventLevel: f.PickRandom<BuildEventLevel>(),
                         message: f.Lorem.Word())
                     {
                         Title = f.Random.Words(3)

@@ -1,4 +1,4 @@
-﻿namespace BCC.MSBuildLog.Services
+﻿namespace BCC.Core.Model.CheckRunSubmission
 {
     public enum BuildEventLevel
     {

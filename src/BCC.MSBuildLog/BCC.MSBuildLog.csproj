@@ -38,6 +38,10 @@
     <Compile Include="..\common\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" Condition="Exists('..\common\SharedAssemblyInfo.cs')" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BCC.Core\BCC.Core.csproj" />
+  </ItemGroup>
+
   <Target Name="CreateAliasForStructuredLogger" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
     <ItemGroup>
       <ReferencePath Condition="'%(FileName)' == 'StructuredLogger'">
