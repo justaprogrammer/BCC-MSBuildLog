@@ -23,7 +23,7 @@ namespace BCC.MSBuildLog.Tests
 
             program.Run(new string[0]);
             commandLineParser.Received(1).Parse(Arg.Any<string[]>());
-            buildLogProcessor.DidNotReceive().Proces(
+            buildLogProcessor.DidNotReceive().Process(
                 Arg.Any<string>(),
                 Arg.Any<string>(),
                 Arg.Any<string>(),
@@ -52,7 +52,7 @@ namespace BCC.MSBuildLog.Tests
             var program = new Program(commandLineParser, buildLogProcessor);
 
             program.Run(new string[0]);
-            buildLogProcessor.Received(1).Proces(
+            buildLogProcessor.Received(1).Process(
                 applicationArguments.InputFile,
                 applicationArguments.OutputFile,
                 applicationArguments.CloneRoot,

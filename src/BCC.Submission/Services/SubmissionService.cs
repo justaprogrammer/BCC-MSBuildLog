@@ -25,16 +25,22 @@ namespace BCC.Submission.Services
             {
                 throw new InvalidOperationException($"File `{inputFile}` does not exist.");
             }
+            var readAllBytes = _fileSystem.File.ReadAllBytes(inputFile);
 
+            return await SubmitAsync(readAllBytes, token, headSha);
+        }
+
+        public async Task<bool> SubmitAsync(byte[] bytes, string token, string headSha)
+        {
             var request = new RestRequest("api/checkrun/upload")
             {
                 AlwaysMultipartFormData = true,
                 RequestFormat = DataFormat.Json,
             };
-            
+
             request.AddHeader("Authorization", $"Bearer {token}");
             request.AddParameter("CommitSha", headSha, ParameterType.RequestBody);
-            request.AddFile("LogFile", _fileSystem.File.ReadAllBytes(inputFile), "file.txt");
+            request.AddFile("LogFile", bytes, "file.txt");
 
             var restResponse = await _restClient.ExecutePostTaskAsync(request)
                 .ConfigureAwait(false);

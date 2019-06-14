@@ -33,7 +33,7 @@ namespace BCC.MSBuildLog.Services
             Logger = logger ?? new NullLogger<BuildLogProcessor>();
         }
 
-        public void Proces(string inputFile, string outputFile, string cloneRoot, string owner, string repo, string hash, string configurationFile = null)
+        public void Process(string inputFile, string outputFile, string cloneRoot, string owner, string repo, string hash, string configurationFile = null)
         {
             if (!_fileSystem.File.Exists(inputFile))
             {

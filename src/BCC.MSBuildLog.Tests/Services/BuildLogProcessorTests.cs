@@ -335,7 +335,7 @@ namespace BCC.MSBuildLog.Tests.Services
             var buildLogProcessor = new BuildLogProcessor(mockFileSystem, binaryLogProcessor,
                 TestLogger.Create<BuildLogProcessor>(_testOutputHelper));
 
-            buildLogProcessor.Proces(
+            buildLogProcessor.Process(
                 inputFile,
                 outputFile,
                 cloneRoot,
