@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BCC.Core.Model.CheckRunSubmission;
+using BCC.MSBuildLog.Logger.Interfaces;
+using BCC.MSBuildLog.Logger.Services;
 using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
 using BCC.Submission.Interfaces;
@@ -23,21 +25,21 @@ namespace BCC.MSBuildLog.Logger
 
         public override void Initialize(IEventSource eventSource)
         {
-            Initialize(eventSource, new DefaultEnvironment(),
+            Initialize(eventSource, new EnvironmentProvider(),
                 new SubmissionService(new FileSystem(), new RestClient()));
         }
 
-        internal void Initialize(IEventSource eventSource, IEnvironment environment,
+        internal void Initialize(IEventSource eventSource, IEnvironmentProvider environmentProvider,
             ISubmissionService submissionService)
         {
-            var bccToken = environment.GetEnvironmentVariable("BCC_TOKEN");
+            var bccToken = environmentProvider.GetEnvironmentVariable("BCC_TOKEN");
             if (string.IsNullOrWhiteSpace(bccToken))
             {
-                environment.WriteLine("BuildCrossCheck Token is not present");
+                environmentProvider.WriteLine("BuildCrossCheck Token is not present");
                 return;
             }
 
-            environment.WriteLine("BuildCrossCheck Enabled");
+            environmentProvider.WriteLine("BuildCrossCheck Enabled");
 
             ParameterParser.Parse(Parameters);
 

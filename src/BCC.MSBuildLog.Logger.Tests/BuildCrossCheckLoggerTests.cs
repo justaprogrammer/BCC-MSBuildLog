@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using BCC.MSBuildLog.Logger.Interfaces;
 using BCC.Submission.Interfaces;
 using Bogus;
 using FluentAssertions;
@@ -18,7 +19,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
             var eventSource = Substitute.For<IEventSource>();
-            var environment = Substitute.For<IEnvironment>();
+            var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
 
             buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
@@ -34,7 +35,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
             var eventSource = Substitute.For<IEventSource>();
-            var environment = Substitute.For<IEnvironment>();
+            var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
 
             var bccToken = faker.Random.String(12);
@@ -54,7 +55,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
             var eventSource = Substitute.For<IEventSource>();
-            var environment = Substitute.For<IEnvironment>();
+            var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
 
             var bccToken = faker.Random.String(12);
@@ -82,7 +83,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
             var eventSource = Substitute.For<IEventSource>();
-            var environment = Substitute.For<IEnvironment>();
+            var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
 
             var bccToken = faker.Random.String(12);
@@ -115,7 +116,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
             var eventSource = Substitute.For<IEventSource>();
-            var environment = Substitute.For<IEnvironment>();
+            var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
 
             var bccToken = faker.Random.String(12);

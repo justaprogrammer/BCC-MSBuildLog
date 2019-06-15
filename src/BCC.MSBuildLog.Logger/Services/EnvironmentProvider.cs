@@ -1,8 +1,9 @@
 ﻿using System;
+using BCC.MSBuildLog.Logger.Interfaces;
 
-namespace BCC.MSBuildLog.Logger
+namespace BCC.MSBuildLog.Logger.Services
 {
-    public class DefaultEnvironment : IEnvironment
+    public class EnvironmentProvider : IEnvironmentProvider
     {
         public string GetEnvironmentVariable(string name)
         {

@@ -1,6 +1,6 @@
-﻿namespace BCC.MSBuildLog.Logger
+﻿namespace BCC.MSBuildLog.Logger.Interfaces
 {
-    public interface IEnvironment
+    public interface IEnvironmentProvider
     {
         string GetEnvironmentVariable(string name);
 
