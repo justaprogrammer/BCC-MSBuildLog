@@ -19,7 +19,6 @@ namespace BCC.MSBuildLog
 { 
     public class BuildCrossCheckLogger : Microsoft.Build.Utilities.Logger
     {
-        private bool _buildStarted;
         private ISubmissionService _submissionService;
         private ILogDataBuilder _logDataBuilder;
         private CheckRunConfiguration _configuration;
@@ -105,71 +104,62 @@ namespace BCC.MSBuildLog
             return configuration;
         }
 
-        private void GuardStopped()
-        {
-            if (_buildStarted)
-                throw new InvalidOperationException("Build already started");
-        }
-
-        private void GuardStarted()
-        {
-            if (!_buildStarted)
-                throw new InvalidOperationException("Build not started");
-        }
-
         private void EventSourceOnBuildStarted(object sender, BuildStartedEventArgs e)
         {
-            GuardStopped();
-
-            _buildStarted = true;
             _startedAt = DateTimeOffset.Now;
         }
 
         private void EventSourceOnBuildFinished(object sender, BuildFinishedEventArgs e)
         {
-            GuardStarted();
+            var submitSuccess = false;
 
-            _buildStarted = false;
-            var logData = _logDataBuilder.Build();
-
-            var hasAnyFailure = logData.Annotations.Any() &&
-                                logData.Annotations.Any(annotation => annotation.AnnotationLevel == AnnotationLevel.Failure);
-
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(logData.ErrorCount.ToString());
-            stringBuilder.Append(" ");
-            stringBuilder.Append(logData.ErrorCount == 1 ? "error" : "errors");
-            stringBuilder.Append(" - ");
-            stringBuilder.Append(logData.WarningCount.ToString());
-            stringBuilder.Append(" ");
-            stringBuilder.Append(logData.WarningCount == 1 ? "warning" : "warnings");
-
-            var createCheckRun = new CreateCheckRun
+            try
             {
-                Annotations = logData.Annotations,
-                Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
-                StartedAt = _startedAt,
-                CompletedAt = DateTimeOffset.Now,
-                Summary = logData.Report,
-                Name = _configuration?.Name ?? "MSBuild Log",
-                Title = stringBuilder.ToString(),
-            };
+                var logData = _logDataBuilder.Build();
 
-            var contents = createCheckRun.ToJson();
-            var bytes = Encoding.Unicode.GetBytes(contents);
-            var submitSuccess = _submissionService.SubmitAsync(bytes, _parameters.Token, _parameters.Hash).Result;
+                var hasAnyFailure = logData.Annotations.Any() &&
+                                    logData.Annotations.Any(annotation => annotation.AnnotationLevel == AnnotationLevel.Failure);
+
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(logData.ErrorCount.ToString());
+                stringBuilder.Append(" ");
+                stringBuilder.Append(logData.ErrorCount == 1 ? "error" : "errors");
+                stringBuilder.Append(" - ");
+                stringBuilder.Append(logData.WarningCount.ToString());
+                stringBuilder.Append(" ");
+                stringBuilder.Append(logData.WarningCount == 1 ? "warning" : "warnings");
+
+                var createCheckRun = new CreateCheckRun
+                {
+                    Annotations = logData.Annotations,
+                    Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
+                    StartedAt = _startedAt,
+                    CompletedAt = DateTimeOffset.Now,
+                    Summary = logData.Report,
+                    Name = _configuration?.Name ?? "MSBuild Log",
+                    Title = stringBuilder.ToString(),
+                };
+
+                var contents = createCheckRun.ToJson();
+                var bytes = Encoding.Unicode.GetBytes(contents);
+                submitSuccess = _submissionService.SubmitAsync(bytes, _parameters.Token, _parameters.Hash).Result;
+            }
+            catch (Exception exception)
+            {
+                _environmentProvider.WriteLine(exception.ToString());
+            }
             _environmentProvider.WriteLine($"Submission {(submitSuccess ? "Success" : "Failure")}");
             
         }
 
         private void EventSourceOnWarningRaised(object sender, BuildWarningEventArgs e)
         {
-            GuardStarted();
+            _logDataBuilder.ProcessRecord(e);
         }
 
         private void EventSourceOnErrorRaised(object sender, BuildErrorEventArgs e)
         {
-            GuardStarted();
+            _logDataBuilder.ProcessRecord(e);
         }
     }
 }
