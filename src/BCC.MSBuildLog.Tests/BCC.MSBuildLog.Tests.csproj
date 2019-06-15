@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BCC.Core\BCC.Core.csproj" />
     <ProjectReference Include="..\BCC.MSBuildLog\BCC.MSBuildLog.csproj" />
   </ItemGroup>
 
