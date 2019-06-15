@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
+using System.Text;
+using BCC.Core.Extensions;
+using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Interfaces;
 using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
@@ -15,10 +19,13 @@ namespace BCC.MSBuildLog
 { 
     public class BuildCrossCheckLogger : Microsoft.Build.Utilities.Logger
     {
-        internal bool BuildStarted { get; private set; }
-
+        private bool _buildStarted;
         private ISubmissionService _submissionService;
         private ILogDataBuilder _logDataBuilder;
+        private CheckRunConfiguration _configuration;
+        private DateTimeOffset _startedAt;
+        private Parameters _parameters;
+        private IEnvironmentProvider _environmentProvider;
 
         public override void Initialize(IEventSource eventSource)
         {
@@ -40,18 +47,19 @@ namespace BCC.MSBuildLog
             IEnvironmentProvider environmentProvider, ISubmissionService submissionService,
             IParameterParser parameterParser, ILogDataBuilderFactory logDataBuilderFactory)
         {
-            environmentProvider.WriteLine("BuildCrossCheck Enabled");
+            _environmentProvider = environmentProvider;
+            _environmentProvider.WriteLine("BuildCrossCheck Enabled");
 
-            var parameters = parameterParser.Parse(Parameters);
+            _parameters = parameterParser.Parse(Parameters);
 
-            if (string.IsNullOrWhiteSpace(parameters.Token))
+            if (string.IsNullOrWhiteSpace(_parameters.Token))
             {
-                environmentProvider.WriteLine("BuildCrossCheck Token is not present");
+                _environmentProvider.WriteLine("BuildCrossCheck Token is not present");
                 return;
             }
 
-            var configuration = LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
-            _logDataBuilder = logDataBuilderFactory.BuildLogDataBuilder(parameters, configuration);
+            _configuration = LoadCheckRunConfiguration(fileSystem, _parameters.ConfigurationFile);
+            _logDataBuilder = logDataBuilderFactory.BuildLogDataBuilder(_parameters, _configuration);
 
             _submissionService = submissionService;
 
@@ -96,13 +104,13 @@ namespace BCC.MSBuildLog
 
         private void GuardStopped()
         {
-            if (BuildStarted)
+            if (_buildStarted)
                 throw new InvalidOperationException("Build already started");
         }
 
         private void GuardStarted()
         {
-            if (!BuildStarted)
+            if (!_buildStarted)
                 throw new InvalidOperationException("Build not started");
         }
 
@@ -110,14 +118,45 @@ namespace BCC.MSBuildLog
         {
             GuardStopped();
 
-            BuildStarted = true;
+            _buildStarted = true;
+            _startedAt = DateTimeOffset.Now;
         }
 
         private void EventSourceOnBuildFinished(object sender, BuildFinishedEventArgs e)
         {
             GuardStarted();
 
-            BuildStarted = false;
+            _buildStarted = false;
+            var logData = _logDataBuilder.Build();
+
+            var hasAnyFailure = logData.Annotations.Any() &&
+                                logData.Annotations.Any(annotation => annotation.AnnotationLevel == AnnotationLevel.Failure);
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(logData.ErrorCount.ToString());
+            stringBuilder.Append(" ");
+            stringBuilder.Append(logData.ErrorCount == 1 ? "error" : "errors");
+            stringBuilder.Append(" - ");
+            stringBuilder.Append(logData.WarningCount.ToString());
+            stringBuilder.Append(" ");
+            stringBuilder.Append(logData.WarningCount == 1 ? "warning" : "warnings");
+
+            var createCheckRun = new CreateCheckRun
+            {
+                Annotations = logData.Annotations,
+                Conclusion = !hasAnyFailure ? CheckConclusion.Success : CheckConclusion.Failure,
+                StartedAt = _startedAt,
+                CompletedAt = DateTimeOffset.Now,
+                Summary = logData.Report,
+                Name = _configuration?.Name ?? "MSBuild Log",
+                Title = stringBuilder.ToString(),
+            };
+
+            var contents = createCheckRun.ToJson();
+            var bytes = Encoding.Unicode.GetBytes(contents);
+            var submitSuccess = _submissionService.SubmitAsync(bytes, _parameters.Token, _parameters.Hash).Result;
+            _environmentProvider.WriteLine($"Submission {(submitSuccess ? "Success" : "Failure")}");
+            
         }
 
         private void EventSourceOnWarningRaised(object sender, BuildWarningEventArgs e)
