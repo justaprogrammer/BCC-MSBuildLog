@@ -13,7 +13,7 @@ using StructuredLogger::Microsoft.Build.Logging;
 
 namespace BCC.MSBuildLog.Services
 {
-    public class LogDataBuilder
+    public class LogDataBuilder : ILogDataBuilder
     {
         private readonly string _cloneRoot;
         private readonly string _owner;

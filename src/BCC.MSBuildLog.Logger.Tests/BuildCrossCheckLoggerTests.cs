@@ -2,6 +2,7 @@ using System;
 using System.IO.Abstractions;
 using System.Linq;
 using BCC.MSBuildLog.Logger.Interfaces;
+using BCC.MSBuildLog.Logger.Model;
 using BCC.MSBuildLog.Logger.Services;
 using BCC.Submission.Interfaces;
 using Bogus;
@@ -30,9 +31,10 @@ namespace BCC.MSBuildLog.Logger.Tests
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
             var parameterParser = Substitute.For<IParameterParser>();
+            var logDataBuilderFactory = Substitute.For<ILogDataBuilderFactory>();
 
             parameterParser.Parse(Arg.Any<string>()).Returns(new Parameters());
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Token is not present"));
         }
@@ -46,6 +48,7 @@ namespace BCC.MSBuildLog.Logger.Tests
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
             var parameterParser = Substitute.For<IParameterParser>();
+            var logDataBuilderFactory = Substitute.For<ILogDataBuilderFactory>();
 
             var parameters = new Parameters
             {
@@ -54,7 +57,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
 
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Enabled"));
         }
@@ -68,6 +71,7 @@ namespace BCC.MSBuildLog.Logger.Tests
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
             var parameterParser = Substitute.For<IParameterParser>();
+            var logDataBuilderFactory = Substitute.For<ILogDataBuilderFactory>();
 
             var parameters = new Parameters
             {
@@ -76,7 +80,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
 
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             Assert.Throws<InvalidOperationException>(() =>
             {
@@ -99,6 +103,7 @@ namespace BCC.MSBuildLog.Logger.Tests
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
             var parameterParser = Substitute.For<IParameterParser>();
+            var logDataBuilderFactory = Substitute.For<ILogDataBuilderFactory>();
 
             var parameters = new Parameters
             {
@@ -107,7 +112,7 @@ namespace BCC.MSBuildLog.Logger.Tests
 
             parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
 
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             var buildStartedEventArgs = new BuildStartedEventArgs(Faker.Random.String(), Faker.Random.String());
             eventSource.BuildStarted +=
@@ -132,14 +137,15 @@ namespace BCC.MSBuildLog.Logger.Tests
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
             var parameterParser = Substitute.For<IParameterParser>();
+            var logDataBuilderFactory = Substitute.For<ILogDataBuilderFactory>();
 
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             var bccToken = Faker.Random.String(12);
             environment.GetEnvironmentVariable(Arg.Is("BCC_TOKEN"))
                 .Returns(bccToken);
 
-            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser, logDataBuilderFactory);
 
             environment.Received(1).GetEnvironmentVariable(Arg.Is("BCC_TOKEN"));
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Enabled"));

@@ -1,4 +1,5 @@
-﻿using BCC.MSBuildLog.Logger.Services;
+﻿using BCC.MSBuildLog.Logger.Model;
+using BCC.MSBuildLog.Logger.Services;
 
 namespace BCC.MSBuildLog.Logger.Interfaces
 {

@@ -8,7 +8,6 @@ using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Logger.Interfaces;
 using BCC.MSBuildLog.Logger.Services;
 using BCC.MSBuildLog.Logger.Services.Build;
-using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
 using BCC.Submission.Interfaces;
 using BCC.Submission.Services;
@@ -19,13 +18,13 @@ using Newtonsoft.Json.Serialization;
 using RestSharp;
 
 namespace BCC.MSBuildLog.Logger
-{
+{ 
     public class BuildCrossCheckLogger : Microsoft.Build.Utilities.Logger
     {
         internal bool BuildStarted { get; private set; }
 
         private ISubmissionService _submissionService;
-        private LogDataBuilder _logDataBuilder;
+        private ILogDataBuilder _logDataBuilder;
 
         public override void Initialize(IEventSource eventSource)
         {
@@ -36,15 +35,16 @@ namespace BCC.MSBuildLog.Logger
 
             var buildServiceProvider = new BuildServiceProvider(environmentProvider);
             var buildService = buildServiceProvider.GetBuildService();
-
             var parameterParser = new ParameterParser(environmentProvider, buildService);
 
-            Initialize(fileSystem, eventSource, environmentProvider, submissionService, parameterParser);
+            var logDataBuilderFactory = new LogDataBuilderFactory();
+
+            Initialize(fileSystem, eventSource, environmentProvider, submissionService, parameterParser, logDataBuilderFactory);
         }
 
         internal void Initialize(IFileSystem fileSystem, IEventSource eventSource,
-            IEnvironmentProvider environmentProvider,
-            ISubmissionService submissionService, IParameterParser parameterParser)
+            IEnvironmentProvider environmentProvider, ISubmissionService submissionService,
+            IParameterParser parameterParser, ILogDataBuilderFactory logDataBuilderFactory)
         {
             environmentProvider.WriteLine("BuildCrossCheck Enabled");
 
@@ -56,9 +56,8 @@ namespace BCC.MSBuildLog.Logger
                 return;
             }
 
-            var configuration = LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
-            _logDataBuilder = new LogDataBuilder(parameters.CloneRoot, parameters.Owner, parameters.Repo,
-                parameters.Hash, configuration);
+            var configuration = BuildLogProcessor.LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
+            _logDataBuilder = logDataBuilderFactory.BuildLogDataBuilder(parameters, configuration);
 
             _submissionService = submissionService;
 
@@ -102,39 +101,6 @@ namespace BCC.MSBuildLog.Logger
         private void EventSourceOnErrorRaised(object sender, BuildErrorEventArgs e)
         {
             GuardStarted();
-        }
-
-        private CheckRunConfiguration LoadCheckRunConfiguration(IFileSystem fileSystem, string configurationFile)
-        {
-            CheckRunConfiguration configuration = null;
-            if (configurationFile != null)
-            {
-                if (!fileSystem.File.Exists(configurationFile))
-                {
-                    throw new InvalidOperationException($"Configuration file `{configurationFile}` does not exist.");
-                }
-
-                var configurationString = fileSystem.File.ReadAllText(configurationFile);
-                if (string.IsNullOrWhiteSpace(configurationString))
-                {
-                    throw new InvalidOperationException(
-                        $"Content of configuration file `{configurationFile}` is null or empty.");
-                }
-
-                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString,
-                    new JsonSerializerSettings
-                    {
-                        Formatting = Formatting.None,
-                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                        Converters = new List<JsonConverter>
-                        {
-                            new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}
-                        },
-                        MissingMemberHandling = MissingMemberHandling.Error
-                    });
-            }
-
-            return configuration;
         }
     }
 }

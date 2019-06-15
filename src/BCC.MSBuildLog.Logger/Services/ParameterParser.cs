@@ -1,6 +1,7 @@
 ﻿using System;
 using BCC.MSBuildLog.Logger.Interfaces;
 using BCC.MSBuildLog.Logger.Interfaces.Build;
+using BCC.MSBuildLog.Logger.Model;
 using BCC.MSBuildLog.Logger.Services.Build;
 
 namespace BCC.MSBuildLog.Logger.Services

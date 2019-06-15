@@ -1,4 +1,4 @@
-﻿namespace BCC.MSBuildLog.Logger.Services
+﻿namespace BCC.MSBuildLog.Logger.Model
 {
     public class Parameters
     {
