@@ -45,31 +45,7 @@ namespace BCC.MSBuildLog.Services
                 throw new InvalidOperationException($"Output file `{outputFile}` already exists.");
             }
 
-            CheckRunConfiguration configuration = null;
-            if (configurationFile != null)
-            {
-                if (!_fileSystem.File.Exists(configurationFile))
-                {
-                    throw new InvalidOperationException($"Configuration file `{configurationFile}` does not exist.");
-                }
-
-                var configurationString = _fileSystem.File.ReadAllText(configurationFile);
-                if (string.IsNullOrWhiteSpace(configurationString))
-                {
-                    throw new InvalidOperationException($"Content of configuration file `{configurationFile}` is null or empty.");
-                }
-
-                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString, new JsonSerializerSettings
-                {
-                    Formatting = Formatting.None,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    Converters = new List<JsonConverter>
-                    {
-                        new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() }
-                    },
-                    MissingMemberHandling = MissingMemberHandling.Error
-                });
-            }
+            var configuration = LoadCheckRunConfiguration(configurationFile);
 
             var dateTimeOffset = DateTimeOffset.Now;
             var logData = _binaryLogProcessor.ProcessLog(inputFile, cloneRoot, owner, repo, hash, configuration);
@@ -100,6 +76,39 @@ namespace BCC.MSBuildLog.Services
             var contents = createCheckRun.ToJson();
 
             _fileSystem.File.WriteAllText(outputFile, contents);
+        }
+
+        private CheckRunConfiguration LoadCheckRunConfiguration(string configurationFile)
+        {
+            CheckRunConfiguration configuration = null;
+            if (configurationFile != null)
+            {
+                if (!_fileSystem.File.Exists(configurationFile))
+                {
+                    throw new InvalidOperationException($"Configuration file `{configurationFile}` does not exist.");
+                }
+
+                var configurationString = _fileSystem.File.ReadAllText(configurationFile);
+                if (string.IsNullOrWhiteSpace(configurationString))
+                {
+                    throw new InvalidOperationException(
+                        $"Content of configuration file `{configurationFile}` is null or empty.");
+                }
+
+                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString,
+                    new JsonSerializerSettings
+                    {
+                        Formatting = Formatting.None,
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = new List<JsonConverter>
+                        {
+                            new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}
+                        },
+                        MissingMemberHandling = MissingMemberHandling.Error
+                    });
+            }
+
+            return configuration;
         }
     }
 }

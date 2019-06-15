@@ -14,6 +14,8 @@ namespace BCC.MSBuildLog.Logger.Services.Build
         {
         }
 
+        public override string BuildServiceName => "AppVeyor";
+
         public override string GitHubRepo => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)

@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 using BCC.Core.Model.CheckRunSubmission;
 using BCC.MSBuildLog.Logger.Interfaces;
 using BCC.MSBuildLog.Logger.Services;
+using BCC.MSBuildLog.Logger.Services.Build;
 using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
 using BCC.Submission.Interfaces;
 using BCC.Submission.Services;
 using Microsoft.Build.Framework;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
 
 namespace BCC.MSBuildLog.Logger
@@ -25,39 +29,41 @@ namespace BCC.MSBuildLog.Logger
 
         public override void Initialize(IEventSource eventSource)
         {
-            Initialize(eventSource, new EnvironmentProvider(),
-                new SubmissionService(new FileSystem(), new RestClient()));
+            var environmentProvider = new EnvironmentProvider();
+            var fileSystem = new FileSystem();
+            var restClient = new RestClient();
+            var submissionService = new SubmissionService(fileSystem, restClient);
+
+            var buildServiceProvider = new BuildServiceProvider(environmentProvider);
+            var buildService = buildServiceProvider.GetBuildService();
+
+            var parameterParser = new ParameterParser(environmentProvider, buildService);
+
+            Initialize(fileSystem, eventSource, environmentProvider, submissionService, parameterParser);
         }
 
-        internal void Initialize(IEventSource eventSource, IEnvironmentProvider environmentProvider,
-            ISubmissionService submissionService)
+        internal void Initialize(IFileSystem fileSystem, IEventSource eventSource,
+            IEnvironmentProvider environmentProvider,
+            ISubmissionService submissionService, IParameterParser parameterParser)
         {
-            var bccToken = environmentProvider.GetEnvironmentVariable("BCC_TOKEN");
-            if (string.IsNullOrWhiteSpace(bccToken))
+            environmentProvider.WriteLine("BuildCrossCheck Enabled");
+
+            var parameters = parameterParser.Parse(Parameters);
+
+            if (string.IsNullOrWhiteSpace(parameters.Token))
             {
                 environmentProvider.WriteLine("BuildCrossCheck Token is not present");
                 return;
             }
 
-            environmentProvider.WriteLine("BuildCrossCheck Enabled");
+            var configuration = LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
+            _logDataBuilder = new LogDataBuilder(parameters.CloneRoot, parameters.Owner, parameters.Repo,
+                parameters.Hash, configuration);
 
-            ParameterParser.Parse(Parameters);
-
-            string cloneRoot = null;
-            string owner = null;
-            string repo = null;
-            string hash = null;
-            CheckRunConfiguration configuration = null;
-
-            _logDataBuilder = new LogDataBuilder(cloneRoot, owner, repo, hash, configuration);
             _submissionService = submissionService;
 
             eventSource.BuildStarted += EventSourceOnBuildStarted;
-            eventSource.ProjectStarted += EventSourceOnProjectStarted;
-            eventSource.TargetStarted += EventSourceOnTargetStarted;
-            eventSource.ProjectFinished += EventSourceOnProjectFinished;
             eventSource.BuildFinished += EventSourceOnBuildFinished;
-            eventSource.MessageRaised += EventSourceOnMessageRaised;
             eventSource.WarningRaised += EventSourceOnWarningRaised;
             eventSource.ErrorRaised += EventSourceOnErrorRaised;
         }
@@ -84,11 +90,8 @@ namespace BCC.MSBuildLog.Logger
         private void EventSourceOnBuildFinished(object sender, BuildFinishedEventArgs e)
         {
             GuardStarted();
-        }
 
-        private void EventSourceOnMessageRaised(object sender, BuildMessageEventArgs e)
-        {
-            GuardStarted();
+            BuildStarted = false;
         }
 
         private void EventSourceOnWarningRaised(object sender, BuildWarningEventArgs e)
@@ -101,23 +104,37 @@ namespace BCC.MSBuildLog.Logger
             GuardStarted();
         }
 
-        void EventSourceOnProjectStarted(object sender, ProjectStartedEventArgs e)
+        private CheckRunConfiguration LoadCheckRunConfiguration(IFileSystem fileSystem, string configurationFile)
         {
-            GuardStarted();
+            CheckRunConfiguration configuration = null;
+            if (configurationFile != null)
+            {
+                if (!fileSystem.File.Exists(configurationFile))
+                {
+                    throw new InvalidOperationException($"Configuration file `{configurationFile}` does not exist.");
+                }
 
-            Console.WriteLine($"Project Started: {e.ProjectFile} {e.TargetNames}");
-        }
+                var configurationString = fileSystem.File.ReadAllText(configurationFile);
+                if (string.IsNullOrWhiteSpace(configurationString))
+                {
+                    throw new InvalidOperationException(
+                        $"Content of configuration file `{configurationFile}` is null or empty.");
+                }
 
-        void EventSourceOnProjectFinished(object sender, ProjectFinishedEventArgs e)
-        {
-            GuardStarted();
+                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString,
+                    new JsonSerializerSettings
+                    {
+                        Formatting = Formatting.None,
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = new List<JsonConverter>
+                        {
+                            new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}
+                        },
+                        MissingMemberHandling = MissingMemberHandling.Error
+                    });
+            }
 
-            Console.WriteLine($"Project Finished: {e.ProjectFile}");
-        }
-
-        void EventSourceOnTargetStarted(object sender, TargetStartedEventArgs e)
-        {
-            GuardStarted();
+            return configuration;
         }
     }
 }

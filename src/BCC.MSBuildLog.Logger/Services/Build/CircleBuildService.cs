@@ -12,6 +12,8 @@ namespace BCC.MSBuildLog.Logger.Services.Build
         {
         }
 
+        public override string BuildServiceName => "Circle";
+
         public override string GitHubRepo => Environment.GetEnvironmentVariable("CIRCLE_PROJECT_REPONAME");
 
         public override string GitHubOwner => Environment.GetEnvironmentVariable("CIRCLE_PROJECT_USERNAME");

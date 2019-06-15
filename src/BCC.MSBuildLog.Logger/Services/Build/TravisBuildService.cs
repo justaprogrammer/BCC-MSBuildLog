@@ -14,6 +14,8 @@ namespace BCC.MSBuildLog.Logger.Services.Build
         {
         }
 
+        public override string BuildServiceName => "Travis";
+
         public override string GitHubRepo => Environment
             .GetEnvironmentVariable("TRAVIS_REPO_SLUG")
             .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)

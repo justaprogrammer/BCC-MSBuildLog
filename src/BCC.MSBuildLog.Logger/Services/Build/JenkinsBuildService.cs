@@ -12,6 +12,8 @@ namespace BCC.MSBuildLog.Logger.Services.Build
         {
         }
 
+        public override string BuildServiceName => "Jenkins";
+
         public override string GitHubRepo => null;
 
         public override string GitHubOwner => null;

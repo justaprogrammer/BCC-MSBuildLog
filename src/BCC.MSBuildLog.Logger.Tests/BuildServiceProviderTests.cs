@@ -21,7 +21,7 @@ namespace BCC.MSBuildLog.Logger.Tests
         {
             var environmentProvider = Substitute.For<IEnvironmentProvider>();
             var environmentServiceProvider = new BuildServiceProvider(environmentProvider);
-            Assert.Throws<EnvironmentServiceNotFoundException>(() => environmentServiceProvider.GetBuildService());
+            environmentServiceProvider.GetBuildService().Should().BeNull();
         }
 
         [Fact]

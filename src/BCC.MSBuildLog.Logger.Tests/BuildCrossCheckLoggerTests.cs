@@ -1,6 +1,8 @@
 using System;
+using System.IO.Abstractions;
 using System.Linq;
 using BCC.MSBuildLog.Logger.Interfaces;
+using BCC.MSBuildLog.Logger.Services;
 using BCC.Submission.Interfaces;
 using Bogus;
 using FluentAssertions;
@@ -12,94 +14,106 @@ namespace BCC.MSBuildLog.Logger.Tests
 {
     public class BuildCrossCheckLoggerTests
     {
+        public Faker Faker { get; }
+
+        public BuildCrossCheckLoggerTests()
+        {
+            Faker = new Faker();
+        }
+
         [Fact]
         public void ShouldNotInitialize()
         {
-            var faker = new Faker();
-
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
+            var fileSystem = Substitute.For<IFileSystem>();
             var eventSource = Substitute.For<IEventSource>();
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
+            var parameterParser = Substitute.For<IParameterParser>();
 
-            buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
+            parameterParser.Parse(Arg.Any<string>()).Returns(new Parameters());
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
 
-            environment.Received(1).GetEnvironmentVariable(Arg.Is("BCC_TOKEN"));
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Token is not present"));
         }
 
         [Fact]
         public void ShouldInitialize()
         {
-            var faker = new Faker();
-
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
+            var fileSystem = Substitute.For<IFileSystem>();
             var eventSource = Substitute.For<IEventSource>();
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
+            var parameterParser = Substitute.For<IParameterParser>();
 
-            var bccToken = faker.Random.String(12);
-            environment.GetEnvironmentVariable(Arg.Is("BCC_TOKEN"))
-                .Returns(bccToken);
+            var parameters = new Parameters
+            {
+                Token = Faker.Random.String(12)
+            };
 
-            buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
+            parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
 
-            environment.Received(1).GetEnvironmentVariable(Arg.Is("BCC_TOKEN"));
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Enabled"));
         }
 
         [Fact]
         public void ShouldStartBeforeOtherEvents()
         {
-            var faker = new Faker();
-
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
+            var fileSystem = Substitute.For<IFileSystem>();
             var eventSource = Substitute.For<IEventSource>();
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
+            var parameterParser = Substitute.For<IParameterParser>();
 
-            var bccToken = faker.Random.String(12);
-            environment.GetEnvironmentVariable(Arg.Is("BCC_TOKEN"))
-                .Returns(bccToken);
+            var parameters = new Parameters
+            {
+                Token = Faker.Random.String(12)
+            };
 
-            buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
+            parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
+
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
 
             Assert.Throws<InvalidOperationException>(() =>
             {
-                var buildMessageEventArgs = new BuildMessageEventArgs(faker.Random.String(), faker.Random.String(),
-                    faker.Random.String(), faker.PickRandom<MessageImportance>(), faker.Date.Past());
+                var buildMessageEventArgs = new BuildWarningEventArgs(Faker.Random.String(), Faker.Random.String(),
+                    Faker.Random.String(), Faker.Random.Int(), Faker.Random.Int(), Faker.Random.Int(),
+                    Faker.Random.Int(), Faker.Random.String(), Faker.Random.String(), Faker.Random.String(),
+                    Faker.Date.Past());
 
-                eventSource.MessageRaised +=
-                    Raise.Event<BuildMessageEventHandler>(buildMessageEventArgs);
+                eventSource.WarningRaised +=
+                    Raise.Event<BuildWarningEventHandler>(buildMessageEventArgs);
             }).Message.Should().Be("Build not started");
-
-            //TODO Check other event types
         }
 
         [Fact]
         public void ShouldNotStartTwice()
         {
-            var faker = new Faker();
-
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
+            var fileSystem = Substitute.For<IFileSystem>();
             var eventSource = Substitute.For<IEventSource>();
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
+            var parameterParser = Substitute.For<IParameterParser>();
 
-            var bccToken = faker.Random.String(12);
-            environment.GetEnvironmentVariable(Arg.Is("BCC_TOKEN"))
-                .Returns(bccToken);
+            var parameters = new Parameters
+            {
+                Token = Faker.Random.String(12)
+            };
 
-            buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
+            parameterParser.Parse(Arg.Any<string>()).Returns(parameters);
 
-            environment.Received(1).GetEnvironmentVariable(Arg.Is("BCC_TOKEN"));
-            environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Enabled"));
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
 
-            var buildStartedEventArgs = new BuildStartedEventArgs(faker.Random.String(), faker.Random.String());
+            var buildStartedEventArgs = new BuildStartedEventArgs(Faker.Random.String(), Faker.Random.String());
             eventSource.BuildStarted +=
                 Raise.Event<BuildStartedEventHandler>(buildStartedEventArgs);
 
-            buildStartedEventArgs = new BuildStartedEventArgs(faker.Random.String(), faker.Random.String());
+            buildStartedEventArgs = new BuildStartedEventArgs(Faker.Random.String(), Faker.Random.String());
 
             Assert.Throws<InvalidOperationException>(() =>
             {
@@ -112,27 +126,29 @@ namespace BCC.MSBuildLog.Logger.Tests
         [Fact(Skip = "Not Complete")]
         public void ShouldSubmitOnComplete()
         {
-            var faker = new Faker();
-
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
+            var fileSystem = Substitute.For<IFileSystem>();
             var eventSource = Substitute.For<IEventSource>();
             var environment = Substitute.For<IEnvironmentProvider>();
             var submissionService = Substitute.For<ISubmissionService>();
+            var parameterParser = Substitute.For<IParameterParser>();
 
-            var bccToken = faker.Random.String(12);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
+
+            var bccToken = Faker.Random.String(12);
             environment.GetEnvironmentVariable(Arg.Is("BCC_TOKEN"))
                 .Returns(bccToken);
 
-            buildCrossCheckLogger.Initialize(eventSource, environment, submissionService);
+            buildCrossCheckLogger.Initialize(fileSystem, eventSource, environment, submissionService, parameterParser);
 
             environment.Received(1).GetEnvironmentVariable(Arg.Is("BCC_TOKEN"));
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Enabled"));
 
-            var buildStartedEventArgs = new BuildStartedEventArgs(faker.Random.String(), faker.Random.String());
+            var buildStartedEventArgs = new BuildStartedEventArgs(Faker.Random.String(), Faker.Random.String());
             eventSource.BuildStarted +=
                 Raise.Event<BuildStartedEventHandler>(buildStartedEventArgs);
 
-            var buildFinishedEventArgs = new BuildFinishedEventArgs(faker.Random.String(), faker.Random.String(), true);
+            var buildFinishedEventArgs = new BuildFinishedEventArgs(Faker.Random.String(), Faker.Random.String(), true);
             eventSource.BuildFinished +=
                 Raise.Event<BuildFinishedEventHandler>(buildFinishedEventArgs);
 

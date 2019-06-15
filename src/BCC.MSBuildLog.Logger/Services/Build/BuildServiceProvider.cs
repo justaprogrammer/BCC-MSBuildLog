@@ -35,11 +35,7 @@ namespace BCC.MSBuildLog.Logger.Services.Build
                 return new JenkinsBuildService(_environmentProvider);
             }
 
-            throw new EnvironmentServiceNotFoundException();
+            return null;
         }
-    }
-
-    public class EnvironmentServiceNotFoundException : Exception
-    {
     }
 }
