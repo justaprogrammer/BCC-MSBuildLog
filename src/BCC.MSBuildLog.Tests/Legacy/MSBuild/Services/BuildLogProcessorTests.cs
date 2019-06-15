@@ -43,7 +43,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
             var annotations = new Annotation[0];
 
             var report = Faker.Lorem.Paragraph();
-            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, report), owner: Arg.Any<string>(), repo: Arg.Any<string>(), hash: Arg.Any<string>());
+            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, report), owner: Faker.Random.String(), repo: Faker.Random.String(), hash: Faker.Random.String());
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
@@ -60,7 +60,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
             var configurationFile = Faker.System.FilePath();
             var mockFileSystem = new MockFileSystem();
             new Action(() =>
-                    GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Arg.Any<string>(), repo: Arg.Any<string>(), hash: Arg.Any<string>(),configurationFile: configurationFile, mockFileSystem: mockFileSystem))
+                    GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Faker.Random.String(), repo: Faker.Random.String(), hash: Faker.Random.String(),configurationFile: configurationFile, mockFileSystem: mockFileSystem))
                 .Should()
                 .Throw<InvalidOperationException>()
                 .WithMessage("Configuration file `" + configurationFile + "` does not exist.");
@@ -76,7 +76,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
             mockFileSystem.AddFile(configurationFile, new MockFileData(string.Empty));
 
             new Action(() =>
-                    GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Arg.Any<string>(), repo: Arg.Any<string>(), hash: Arg.Any<string>(), configurationFile: configurationFile, mockFileSystem: mockFileSystem))
+                    GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Faker.Random.String(), repo: Faker.Random.String(), hash: Faker.Random.String(), configurationFile: configurationFile, mockFileSystem: mockFileSystem))
                 .Should()
                 .Throw<InvalidOperationException>()
                 .WithMessage("Content of configuration file `" + configurationFile + "` is null or empty.");
@@ -91,7 +91,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
             var mockFileSystem = new MockFileSystem();
             mockFileSystem.AddFile(configurationFile, new MockFileData("{rules: [{code: 'CS1234', reportAs: 'Ignore'}]}"));
 
-            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Arg.Any<string>(), repo: Arg.Any<string>(), hash: Arg.Any<string>(), configurationFile: configurationFile, mockFileSystem: mockFileSystem);
+            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph()), owner: Faker.Random.String(), repo: Faker.Random.String(), hash: Faker.Random.String(), configurationFile: configurationFile, mockFileSystem: mockFileSystem);
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
@@ -114,7 +114,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
                     Faker.Lorem.Word())
             };
 
-            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph(), 1), owner: Arg.Any<string>(), repo: Arg.Any<string>(), hash: Arg.Any<string>());
+            var checkRun = GetCheckRun(CreateMockBinaryLogProcessor(annotations, Faker.Lorem.Paragraph(), 1), owner: Faker.Random.String(), repo: Faker.Random.String(), hash: Faker.Random.String());
 
             checkRun.Conclusion.Should().Be(CheckConclusion.Success);
             checkRun.Name.Should().Be("MSBuild Log");
@@ -361,7 +361,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Services
                 Arg.Any<string>(),
                 Arg.Any<string>(),
                 Arg.Any<string>(),
-                Arg.Any<CheckRunConfiguration>())
+                Arg.Is<CheckRunConfiguration>(configuration => true))
                 .Returns(new LogData()
                 {
                     Report = report,
