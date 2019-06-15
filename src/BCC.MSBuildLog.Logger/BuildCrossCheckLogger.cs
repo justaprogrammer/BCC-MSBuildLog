@@ -116,8 +116,6 @@ namespace BCC.MSBuildLog.Logger
         void EventSourceOnTargetStarted(object sender, TargetStartedEventArgs e)
         {
             GuardStarted();
-
-            Console.WriteLine("Target Started: " + e.TargetName);
         }
     }
 }

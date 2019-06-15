@@ -6,7 +6,7 @@ namespace BCC.MSBuildLog.Logger
     {
         public static void Parse(string parameters)
         {
-            Console.WriteLine(parameters);
+            Console.WriteLine($"Parameters: {parameters}");
         }
     }
 }
