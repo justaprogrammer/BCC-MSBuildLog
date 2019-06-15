@@ -8,7 +8,6 @@ install:
 cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - '.fake -> Build.fsx'
   - nupkgs -> packet.dependencies
 before_build:
   - ps: gitversion /output buildserver 
