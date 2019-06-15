@@ -31,7 +31,10 @@ namespace BCC.MSBuildLog
         {
             var environmentProvider = new EnvironmentProvider();
             var fileSystem = new FileSystem();
-            var restClient = new RestClient();
+
+            var baseUrl = environmentProvider.GetEnvironmentVariable("BCC_URL") ?? "https://buildcrosscheck.azurewebsites.net";
+            var restClient = new RestClient(baseUrl);
+
             var submissionService = new SubmissionService(fileSystem, restClient);
 
             var buildServiceProvider = new BuildServiceProvider(environmentProvider);
