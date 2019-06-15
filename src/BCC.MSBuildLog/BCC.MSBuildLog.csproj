@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCC-Core" Version="0.1.8" />
+    <PackageReference Include="BCC-Core" Version="0.1.7" />
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" Condition="'$(TargetFramework)' == 'net471'" />
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />

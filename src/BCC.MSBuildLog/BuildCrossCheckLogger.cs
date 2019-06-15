@@ -50,8 +50,6 @@ namespace BCC.MSBuildLog
             IParameterParser parameterParser, ILogDataBuilderFactory logDataBuilderFactory)
         {
             _environmentProvider = environmentProvider;
-            _environmentProvider.WriteLine("BuildCrossCheck Enabled");
-
             _parameters = parameterParser.Parse(Parameters);
 
             if (string.IsNullOrWhiteSpace(_parameters.Token))
@@ -59,6 +57,32 @@ namespace BCC.MSBuildLog
                 _environmentProvider.WriteLine("BuildCrossCheck Token is not present");
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(_parameters.CloneRoot))
+            {
+                _environmentProvider.WriteLine("BuildCrossCheck CloneRoot is not present");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_parameters.Owner))
+            {
+                _environmentProvider.WriteLine("BuildCrossCheck Owner is not present");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_parameters.Repo))
+            {
+                _environmentProvider.WriteLine("BuildCrossCheck Repo is not present");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_parameters.Hash))
+            {
+                _environmentProvider.WriteLine("BuildCrossCheck Hash is not present");
+                return;
+            }
+
+            _environmentProvider.WriteLine("BuildCrossCheck Enabled");
 
             _configuration = LoadCheckRunConfiguration(fileSystem, _parameters.ConfigurationFile);
             _logDataBuilder = logDataBuilderFactory.BuildLogDataBuilder(_parameters, _configuration);

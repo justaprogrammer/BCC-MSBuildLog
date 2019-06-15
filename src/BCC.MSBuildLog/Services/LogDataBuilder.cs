@@ -66,7 +66,6 @@ namespace BCC.MSBuildLog.Services
             }
 
             AnnotationLevel checkWarningLevel;
-            var buildEventLevel = BuildEventLevel.Warning;
             string buildCode;
             string projectFile;
             string file;
@@ -75,6 +74,7 @@ namespace BCC.MSBuildLog.Services
             string recordTypeString;
             if (buildWarning != null)
             {
+                _warningCount++;
                 recordTypeString = "Warning";
 
                 checkWarningLevel = AnnotationLevel.Warning;
@@ -88,10 +88,10 @@ namespace BCC.MSBuildLog.Services
             }
             else
             {
+                _errorCount++;
                 recordTypeString = "Error";
 
                 checkWarningLevel = AnnotationLevel.Failure;
-                buildEventLevel = BuildEventLevel.Error;
                 buildCode = buildError.Code;
                 projectFile = buildError.ProjectFile;
                 file = buildError.File;
@@ -148,23 +148,13 @@ namespace BCC.MSBuildLog.Services
                 message,
                 lineNumber,
                 endLineNumber,
-                filePath,
-                buildEventLevel);
+                filePath);
 
             var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
             var line = $"- [{filePath}({lineNumber})](https://github.com/{_owner}/{_repo}/tree/{_hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
 
             _annotations.Add(annotation);
-
-            if (annotation.BuildEventLevel == BuildEventLevel.Warning)
-            {
-                _warningCount++;
-            }
-            else if (annotation.BuildEventLevel == BuildEventLevel.Error)
-            {
-                _errorCount++;
-            }
 
             if (!_reportingMaxed)
             {
@@ -194,8 +184,7 @@ namespace BCC.MSBuildLog.Services
         }
 
         private Annotation CreateAnnotation(AnnotationLevel checkWarningLevel, [NotNull] string cloneRoot,
-            [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath,
-            BuildEventLevel buildEventLevel)
+            [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
         {
             if (cloneRoot == null)
             {
@@ -217,7 +206,6 @@ namespace BCC.MSBuildLog.Services
                 lineNumber,
                 endLineNumber,
                 checkWarningLevel,
-                buildEventLevel,
                 message)
             {
                 Title = title

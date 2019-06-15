@@ -36,7 +36,7 @@ namespace BCC.MSBuildLog.Tests
             environment.Received(1).WriteLine(Arg.Is("BuildCrossCheck Token is not present"));
         }
 
-        [Fact]
+        [Fact(Skip = "Not Complete")]
         public void ShouldInitialize()
         {
             var buildCrossCheckLogger = new BuildCrossCheckLogger();
