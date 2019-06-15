@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>netcoreapp2.1;net472</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <StartupObject>BCC.MSBuildLog.Program</StartupObject>
+    <StartupObject></StartupObject>
     <AssemblyName>BCCMSBuildLog</AssemblyName>
+    <ApplicationIcon />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BCC-Core" Version="0.1.8" />
     <PackageReference Include="FluentCommandLineParser" Version="1.4.3" Condition="'$(TargetFramework)' == 'net471'" />
-    <PackageReference Include="FluentCommandLineParser-netstandard" Version="1.4.3.13" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0-preview3-35497" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="RestSharp" Version="106.6.9" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.256" />
     <PackageReference Include="Microsoft.Build" Version="15.8.166" />
     <PackageReference Include="Microsoft.Build.Framework" Version="15.8.166" />

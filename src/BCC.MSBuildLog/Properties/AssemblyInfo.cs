@@ -21,3 +21,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("a048c698-3683-4808-88b9-420b67cb17bd")]
+[assembly: InternalsVisibleTo("BCC.MSBuildLog.Tests")]

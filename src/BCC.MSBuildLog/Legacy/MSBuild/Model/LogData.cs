@@ -1,0 +1,12 @@
+﻿using BCC.Core.Model.CheckRunSubmission;
+
+namespace BCC.MSBuildLog.Legacy.MSBuild.Model
+{
+    public class LogData
+    {
+        public int WarningCount { get; set; }
+        public int ErrorCount { get; set; }
+        public Annotation[] Annotations { get; set; }
+        public string Report { get; set; }
+    }
+}
