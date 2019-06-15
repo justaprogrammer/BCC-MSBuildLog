@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using FluentAssertions;
 
-namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Util
+namespace BCC.MSBuildLog.Tests.Util
 {
     public static class TestUtils
     {

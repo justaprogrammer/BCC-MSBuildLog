@@ -1,7 +1,6 @@
 using System;
 using System.IO.Abstractions;
 using BCC.MSBuildLog.Interfaces;
-using BCC.MSBuildLog.Legacy.Submission.Interfaces;
 using BCC.MSBuildLog.Model;
 using Bogus;
 using FluentAssertions;

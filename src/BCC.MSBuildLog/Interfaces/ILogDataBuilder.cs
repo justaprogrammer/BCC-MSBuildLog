@@ -1,7 +1,7 @@
-﻿using BCC.MSBuildLog.Legacy.MSBuild.Model;
+﻿using BCC.MSBuildLog.Model;
 using Microsoft.Build.Framework;
 
-namespace BCC.MSBuildLog.Legacy.MSBuild.Interfaces
+namespace BCC.MSBuildLog.Interfaces
 {
     public interface ILogDataBuilder
     {

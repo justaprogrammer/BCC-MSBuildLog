@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using BCC.MSBuildLog.Legacy.Submission.Services;
-using BCC.MSBuildLog.Tests.Legacy.Submission.Util;
+using BCC.MSBuildLog.Services;
+using BCC.MSBuildLog.Tests.Util;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -12,7 +12,7 @@ using RestSharp;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace BCC.MSBuildLog.Tests.Legacy.Submission.Services
+namespace BCC.MSBuildLog.Tests.Services
 {
     public class SubmissionServiceTests
     {
@@ -53,7 +53,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.Submission.Services
             var submissionService = new SubmissionService(mockFileSystem, restClient);
 
             var result = await submissionService.SubmitAsync(inputFile, token, headSha);
-            result.Should().BeTrue();
+            AssertionExtensions.Should((bool) result).BeTrue();
 
             await restClient.Received(1).ExecutePostTaskAsync(Arg.Any<IRestRequest>());
             var objects = restClient.ReceivedCalls().First().GetArguments();

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace BCC.MSBuildLog.Legacy.Submission.Interfaces
+namespace BCC.MSBuildLog.Interfaces
 {
     public interface ISubmissionService
     {

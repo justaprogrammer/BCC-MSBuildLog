@@ -2,10 +2,10 @@
 using System.IO.Abstractions;
 using System.Net;
 using System.Threading.Tasks;
-using BCC.MSBuildLog.Legacy.Submission.Interfaces;
+using BCC.MSBuildLog.Interfaces;
 using RestSharp;
 
-namespace BCC.MSBuildLog.Legacy.Submission.Services
+namespace BCC.MSBuildLog.Services
 {
     public class SubmissionService : ISubmissionService
     {

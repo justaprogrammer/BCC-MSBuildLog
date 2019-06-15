@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO.Abstractions;
 using BCC.MSBuildLog.Interfaces;
-using BCC.MSBuildLog.Legacy.MSBuild.Interfaces;
-using BCC.MSBuildLog.Legacy.MSBuild.Services;
-using BCC.MSBuildLog.Legacy.Submission.Interfaces;
-using BCC.MSBuildLog.Legacy.Submission.Services;
+using BCC.MSBuildLog.Model;
 using BCC.MSBuildLog.Services;
 using BCC.MSBuildLog.Services.Build;
 using Microsoft.Build.Framework;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
 
 namespace BCC.MSBuildLog
@@ -49,7 +50,7 @@ namespace BCC.MSBuildLog
                 return;
             }
 
-            var configuration = BuildLogProcessor.LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
+            var configuration = LoadCheckRunConfiguration(fileSystem, parameters.ConfigurationFile);
             _logDataBuilder = logDataBuilderFactory.BuildLogDataBuilder(parameters, configuration);
 
             _submissionService = submissionService;
@@ -58,6 +59,39 @@ namespace BCC.MSBuildLog
             eventSource.BuildFinished += EventSourceOnBuildFinished;
             eventSource.WarningRaised += EventSourceOnWarningRaised;
             eventSource.ErrorRaised += EventSourceOnErrorRaised;
+        }
+
+        private CheckRunConfiguration LoadCheckRunConfiguration(IFileSystem fileSystem, string configurationFile)
+        {
+            CheckRunConfiguration configuration = null;
+            if (configurationFile != null)
+            {
+                if (!fileSystem.File.Exists(configurationFile))
+                {
+                    throw new InvalidOperationException($"Configuration file `{configurationFile}` does not exist.");
+                }
+
+                var configurationString = fileSystem.File.ReadAllText(configurationFile);
+                if (string.IsNullOrWhiteSpace(configurationString))
+                {
+                    throw new InvalidOperationException(
+                        $"Content of configuration file `{configurationFile}` is null or empty.");
+                }
+
+                configuration = JsonConvert.DeserializeObject<CheckRunConfiguration>(configurationString,
+                    new JsonSerializerSettings
+                    {
+                        Formatting = Formatting.None,
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = new List<JsonConverter>
+                        {
+                            new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}
+                        },
+                        MissingMemberHandling = MissingMemberHandling.Error
+                    });
+            }
+
+            return configuration;
         }
 
         private void GuardStopped()

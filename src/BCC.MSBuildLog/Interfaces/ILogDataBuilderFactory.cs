@@ -1,6 +1,4 @@
-﻿using BCC.MSBuildLog.Legacy.MSBuild.Interfaces;
-using BCC.MSBuildLog.Legacy.MSBuild.Model;
-using BCC.MSBuildLog.Model;
+﻿using BCC.MSBuildLog.Model;
 
 namespace BCC.MSBuildLog.Interfaces
 {

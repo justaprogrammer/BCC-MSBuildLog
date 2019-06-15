@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BCC.Core.Model.CheckRunSubmission;
-using BCC.MSBuildLog.Legacy.MSBuild.Extensions;
-using BCC.MSBuildLog.Legacy.MSBuild.Interfaces;
-using BCC.MSBuildLog.Legacy.MSBuild.Model;
+using BCC.MSBuildLog.Extensions;
+using BCC.MSBuildLog.Interfaces;
+using BCC.MSBuildLog.Model;
 using JetBrains.Annotations;
 using Microsoft.Build.Framework;
 
-namespace BCC.MSBuildLog.Legacy.MSBuild.Services
+namespace BCC.MSBuildLog.Services
 {
     public class LogDataBuilder : ILogDataBuilder
     {

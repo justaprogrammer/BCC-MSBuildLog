@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace BCC.MSBuildLog.Tests.Legacy.Submission.Util
+namespace BCC.MSBuildLog.Tests.Util
 {
     public static class TestLogger
     {

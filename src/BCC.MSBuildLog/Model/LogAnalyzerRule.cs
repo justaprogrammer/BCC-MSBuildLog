@@ -1,4 +1,4 @@
-﻿namespace BCC.MSBuildLog.Legacy.MSBuild.Model
+﻿namespace BCC.MSBuildLog.Model
 {
     public class LogAnalyzerRule
     {

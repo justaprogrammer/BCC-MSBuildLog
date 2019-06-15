@@ -1,8 +1,8 @@
-﻿using BCC.MSBuildLog.Legacy.MSBuild.Extensions;
+﻿using BCC.MSBuildLog.Extensions;
 using FluentAssertions;
 using Xunit;
 
-namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Extensions
+namespace BCC.MSBuildLog.Tests.Extensions
 {
     // https://stackoverflow.com/a/31941159/104877
     public class IsSubPathOfStringExtensionTest
@@ -28,7 +28,7 @@ namespace BCC.MSBuildLog.Tests.Legacy.MSBuild.Extensions
         [InlineData(@"c:\foo\..\bar\baz", @"c:\barr",false)]
         public void IsSubPathOfTest(string path, string baseDirPath, bool expected)
         {
-            path.IsSubPathOf(baseDirPath).Should().Be(expected);
+            AssertionExtensions.Should((bool) path.IsSubPathOf(baseDirPath)).Be(expected);
         }
     }
 }
