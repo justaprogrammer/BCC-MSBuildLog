@@ -1,7 +1,17 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Chores
+- Adding chores to changelog output
+- Removing cache of ./.fake in AppVeyor
+- Caching packet resources on AppVeyor
+- Fixing the changelog template
+
+### Code Refactoring
+- Removing deployment functionality from build scripts
+
 ### Features
+- Adding MSBuild logger to log directory to BuildCrossCheck
 - Adding a changelog
 
 
