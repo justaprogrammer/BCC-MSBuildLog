@@ -172,17 +172,6 @@ namespace BCC.MSBuildLog.Services
             }
         }
 
-        public void Clear()
-        {
-            _reportTotalBytes = 0.0;
-            _reportingMaxed = false;
-
-            _warningCount = 0;
-            _errorCount = 0;
-            _annotations = new List<Annotation>();
-            _report = new StringBuilder();
-        }
-
         private Annotation CreateAnnotation(AnnotationLevel checkWarningLevel, [NotNull] string cloneRoot,
             [NotNull] string title, [NotNull] string message, int lineNumber, int endLineNumber, string getFilePath)
         {
