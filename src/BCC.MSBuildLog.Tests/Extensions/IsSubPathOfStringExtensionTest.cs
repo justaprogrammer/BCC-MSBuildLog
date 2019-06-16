@@ -28,7 +28,7 @@ namespace BCC.MSBuildLog.Tests.Extensions
         [InlineData(@"c:\foo\..\bar\baz", @"c:\barr",false)]
         public void IsSubPathOfTest(string path, string baseDirPath, bool expected)
         {
-            ((bool) path.IsSubPathOf(baseDirPath)).Should().Be(expected);
+            path.IsSubPathOf(baseDirPath).Should().Be(expected);
         }
     }
 }
