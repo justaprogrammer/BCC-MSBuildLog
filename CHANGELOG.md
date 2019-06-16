@@ -1,10 +1,17 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Chores
+- Adding chores to changelog output
+- Removing cache of ./.fake in AppVeyor
+- Caching packet resources on AppVeyor
+- Fixing the changelog template
+
 ### Code Refactoring
 - Removing deployment functionality from build scripts
 
 ### Features
+- Adding MSBuild logger to log directory to BuildCrossCheck
 - Adding a changelog
 
 
@@ -39,41 +46,11 @@
 - Merge pull request [#9](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/9) from justaprogrammer/report-writing
 
 
-<a name="v0.1.6-report-writing.2"></a>
-## [v0.1.6-report-writing.2] - 2018-11-06
-
-<a name="v0.1.6-report-writing.1"></a>
-## [v0.1.6-report-writing.1] - 2018-11-06
-
-<a name="v0.1.5-report-writing.4"></a>
-## [v0.1.5-report-writing.4] - 2018-11-05
-
-<a name="v0.1.5-report-writing.3"></a>
-## [v0.1.5-report-writing.3] - 2018-11-04
-
-<a name="v0.1.5-report-writing.2"></a>
-## [v0.1.5-report-writing.2] - 2018-11-03
-
-<a name="v0.1.5-report-writing.1"></a>
-## [v0.1.5-report-writing.1] - 2018-11-03
-
 <a name="v0.1.5"></a>
 ## [v0.1.5] - 2018-11-02
 ### Pull Requests
 - Merge pull request [#7](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/7) from justaprogrammer/fixes-again
 
-
-<a name="v0.1.5-fixes-again.4"></a>
-## [v0.1.5-fixes-again.4] - 2018-11-02
-
-<a name="v0.1.5-fixes-again.3"></a>
-## [v0.1.5-fixes-again.3] - 2018-11-02
-
-<a name="v0.1.5-fixes-again.2"></a>
-## [v0.1.5-fixes-again.2] - 2018-11-02
-
-<a name="v0.1.5-fixes-again.1"></a>
-## [v0.1.5-fixes-again.1] - 2018-11-02
 
 <a name="v0.1.4"></a>
 ## [v0.1.4] - 2018-11-01
@@ -204,18 +181,8 @@
 [v0.1.9]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.8...v0.1.9
 [v0.1.8]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.7...v0.1.8
 [v0.1.7]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.6...v0.1.7
-[v0.1.6]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.6-report-writing.2...v0.1.6
-[v0.1.6-report-writing.2]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.6-report-writing.1...v0.1.6-report-writing.2
-[v0.1.6-report-writing.1]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-report-writing.4...v0.1.6-report-writing.1
-[v0.1.5-report-writing.4]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-report-writing.3...v0.1.5-report-writing.4
-[v0.1.5-report-writing.3]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-report-writing.2...v0.1.5-report-writing.3
-[v0.1.5-report-writing.2]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-report-writing.1...v0.1.5-report-writing.2
-[v0.1.5-report-writing.1]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5...v0.1.5-report-writing.1
-[v0.1.5]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-fixes-again.4...v0.1.5
-[v0.1.5-fixes-again.4]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-fixes-again.3...v0.1.5-fixes-again.4
-[v0.1.5-fixes-again.3]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-fixes-again.2...v0.1.5-fixes-again.3
-[v0.1.5-fixes-again.2]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5-fixes-again.1...v0.1.5-fixes-again.2
-[v0.1.5-fixes-again.1]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.4...v0.1.5-fixes-again.1
+[v0.1.6]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.5...v0.1.6
+[v0.1.5]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.4...v0.1.5
 [v0.1.4]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.3...v0.1.4
 [v0.1.3]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.2...v0.1.3
 [v0.1.2]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.1...v0.1.2
