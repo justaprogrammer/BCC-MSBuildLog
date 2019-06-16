@@ -8,5 +8,6 @@
         public string Hash { get; set; }
         public string Token { get; set; }
         public string ConfigurationFile { get; set; }
+        public int AnnotationCount { get; set; } = 100;
     }
 }
