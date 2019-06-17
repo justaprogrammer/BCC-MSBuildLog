@@ -1,6 +1,7 @@
 # Usage
 1. Add BuildCrossCheck service token as an environment variable named `BCC_TOKEN`
-2. Integrate in MSBuild
+2. Install the nuget package `BCC-MSBuild`
+2. Integrate in your build by adding the msbuild logger 
    `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll`
    `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll;configuration=bcc-config.json`
    

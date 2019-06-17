@@ -18,6 +18,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FFB46A17
 		..\paket.dependencies = ..\paket.dependencies
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{21514985-11EB-4490-A990-8B074D458F2E}"
+	ProjectSection(SolutionItems) = preProject
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CE45555F-7815-4DF1-B20E-073339D008C6}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\contributing.md = ..\docs\contributing.md
+		..\docs\readme.md = ..\docs\readme.md
+		..\docs\usage.md = ..\docs\usage.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +48,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE45555F-7815-4DF1-B20E-073339D008C6} = {21514985-11EB-4490-A990-8B074D458F2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3491DE50-55CE-40C0-864A-83C81CE9344F}
