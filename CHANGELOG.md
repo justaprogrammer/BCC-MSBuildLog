@@ -1,6 +1,6 @@
-<a name="unreleased"></a>
-## [Unreleased]
 
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2019-06-17
 ### Chores
 - Update documentation
 - Adding chores to changelog output
@@ -15,6 +15,15 @@
 - Ability to customize the annotation account
 - Adding MSBuild logger to log directory to BuildCrossCheck
 - Adding a changelog
+
+### Pull Requests
+- Merge pull request [#32](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/32) from justaprogrammer/documentation
+- Merge pull request [#31](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/31) from justaprogrammer/max-annotation-count
+- Merge pull request [#30](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/30) from justaprogrammer/cleanup
+- Merge pull request [#28](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/28) from justaprogrammer/msbuild-logger
+- Merge pull request [#29](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/29) from justaprogrammer/chores-and-fixes
+- Merge pull request [#25](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/25) from justaprogrammer/changelog
+- Merge pull request [#23](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/23) from justaprogrammer/fix-build
 
 
 <a name="v0.1.9"></a>
@@ -179,7 +188,8 @@
 - Merge pull request [#2](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/2) from justaprogrammer/fixes/pr-builds
 
 
-[Unreleased]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.9...HEAD
+[Unreleased]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.9...v1.0.0
 [v0.1.9]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.8...v0.1.9
 [v0.1.8]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.7...v0.1.8
 [v0.1.7]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.6...v0.1.7
