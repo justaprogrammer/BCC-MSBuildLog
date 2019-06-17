@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Chores
+- Update documentation
 - Adding chores to changelog output
 - Removing cache of ./.fake in AppVeyor
 - Caching packet resources on AppVeyor
