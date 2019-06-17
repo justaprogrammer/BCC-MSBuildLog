@@ -1,24 +1,32 @@
 # Usage
+1. Add BuildCrossCheck service token as an environment variable named `BCC_TOKEN`
+2. Integrate in MSBuild
+   `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll`
+   `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll;configuration=bcc-config.json`
+   
+## Optional Arguments
+| Argument          | Description                                                       |
+| :---              | :---                                                              |
+| **configuration** | Path to configuration file                                        |
+| **token**         | BuildCrossCheck service token (if not using environment variable) |
 
-`BCCMSBuildLog --input <input binlog path> --output <output json path> --cloneRoot <clone root> --ownerRepo <owner/repository> --hash <commit hash> [--configuration <configuration file path>]`
+## Supported CI Build Systems
+On supported CI build systems, BuildCrossCheck will grab all required information about GitHub and your repo from the build environment.
+- AppVeyor
+- Cirlce
+- Jenkins
+- Travis
 
-## Arguments
-
-| Argument | Required | Description |
-| :--- | --- | :--- |
-| **input** | :white_check_mark: | Path to MSBuild binary log file |
-| **output** | :white_check_mark: | Path to output checkrun json file |
-| **cloneRoot** | :white_check_mark: | Path where build occurred |
-| **ownerRepo** | :warning: | Owner and Repository name in `owner/repo` format |
-| **owner** | :warning: | Owner |
-| **repo** | :warning: | Repository name |
-| **hash** | :white_check_mark: | Hash of the current commit |
-| **configuration** | | Path to configuration file |
-
-**Note**: Owner and repo must be specified. Combined and seperate arguments are provided for ease of integration.
+## Custom CI Arguments
+On other CI build systems, the following arguments should be provided in the msbuild command
+| Argument          | Description                                       |
+| :---              | :---                                              |
+| **cloneRoot**     | Path where build occurred                         |
+| **owner**         | Owner                                             |
+| **repo**          | Repository name                                   |
+| **hash**          | Hash of the current commit                        |
 
 ## Configuration
-
 The configuration file is a json document that allows customization of the Check Run output.
 
 ### Example
