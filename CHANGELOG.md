@@ -11,6 +11,7 @@
 - Removing deployment functionality from build scripts
 
 ### Features
+- Ability to customize the annotation account
 - Adding MSBuild logger to log directory to BuildCrossCheck
 - Adding a changelog
 
