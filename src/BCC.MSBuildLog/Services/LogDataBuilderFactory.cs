@@ -7,8 +7,7 @@ namespace BCC.MSBuildLog.Services
     {
         public ILogDataBuilder BuildLogDataBuilder(Parameters parameters, CheckRunConfiguration configuration)
         {
-            return new LogDataBuilder(parameters.CloneRoot, parameters.Owner, parameters.Repo,
-                parameters.Hash, configuration);
+            return new LogDataBuilder(parameters, configuration);
         }
     }
 }

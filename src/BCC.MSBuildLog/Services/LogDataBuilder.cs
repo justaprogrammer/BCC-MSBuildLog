@@ -15,10 +15,7 @@ namespace BCC.MSBuildLog.Services
 {
     public class LogDataBuilder : ILogDataBuilder
     {
-        private readonly string _cloneRoot;
-        private readonly string _owner;
-        private readonly string _repo;
-        private readonly string _hash;
+        private readonly Parameters _parameters;
         private readonly Dictionary<string, ReportAs> _ruleDictionary;
 
         private double _reportTotalBytes;
@@ -28,18 +25,20 @@ namespace BCC.MSBuildLog.Services
         private List<Annotation> _annotations;
         private StringBuilder _report;
 
-        public LogDataBuilder(string cloneRoot, string owner, string repo, string hash, CheckRunConfiguration configuration)
+        public LogDataBuilder(Parameters parameters, CheckRunConfiguration configuration)
         {
-            _cloneRoot = cloneRoot;
-            _owner = owner;
-            _repo = repo;
-            _hash = hash;
+            _parameters = parameters;
             _ruleDictionary =
                 configuration?.Rules?.ToDictionary(rule => rule.Code, rule => rule.ReportAs);
 
             _annotations = new List<Annotation>();
             _report = new StringBuilder();
         }
+
+        private string CloneRoot => _parameters.CloneRoot;
+        private string Owner => _parameters.Owner;
+        private string Repo => _parameters.Repo;
+        private string Hash => _parameters.Hash;
 
         public LogData Build()
         {
@@ -142,19 +141,21 @@ namespace BCC.MSBuildLog.Services
                 }
             }
 
-            var annotation = CreateAnnotation(checkWarningLevel,
-                _cloneRoot,
-                title,
-                message,
-                lineNumber,
-                endLineNumber,
-                filePath);
+            if (_annotations.Count <)
+                var annotation = CreateAnnotation(checkWarningLevel,
+                    CloneRoot,
+                    title,
+                    message,
+                    lineNumber,
+                    endLineNumber,
+                    filePath);
+            _annotations.Add(annotation);
 
             var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
-            var line = $"- [{filePath}({lineNumber})](https://github.com/{_owner}/{_repo}/tree/{_hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
+            var line =
+                $"- [{filePath}({lineNumber})](https://github.com/{Owner}/{Repo}/tree/{Hash}/{filePath}#{lineReference}) **{recordTypeString} - {code}** {message}{Environment.NewLine}";
 
-            _annotations.Add(annotation);
 
             if (!_reportingMaxed)
             {
@@ -214,9 +215,9 @@ namespace BCC.MSBuildLog.Services
             }
 
             var filePath = Path.Combine(Path.GetDirectoryName(projectFile), file);
-            if (filePath.IsSubPathOf(_cloneRoot))
+            if (filePath.IsSubPathOf(CloneRoot))
             {
-                return GetRelativePath(filePath, _cloneRoot).Replace("\\", "/");
+                return GetRelativePath(filePath, CloneRoot).Replace("\\", "/");
             }
 
             var dotNugetPosition = filePath.IndexOf(".nuget");
@@ -225,7 +226,7 @@ namespace BCC.MSBuildLog.Services
                 return filePath.Substring(dotNugetPosition).Replace("\\", "/");
             }
 
-            throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{_cloneRoot}`");
+            throw new InvalidOperationException($"FilePath `{filePath}` is not a child of `{CloneRoot}`");
         }
 
         private static string GetRelativePath(string filespec, string folder)
@@ -240,7 +241,8 @@ namespace BCC.MSBuildLog.Services
             }
 
             var folderUri = new Uri(folder);
-            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString()
+                .Replace('/', Path.DirectorySeparatorChar));
         }
     }
 }
