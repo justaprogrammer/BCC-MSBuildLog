@@ -3,9 +3,14 @@
 2. Install the nuget package `BCC-MSBuild`
 3. Integrate in your build by adding the msbuild logger 
    `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll`
-   `msbuild [Solution] -logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll;configuration=bcc-config.json`
+
+Depending on your project configuration, nuget packages may be located centrall on the machine at `%userprofile%\.nuget\packages`.
    
 ## Optional Arguments
+
+Additional parameters can be passed to an msbuild logger in the logger option.
+For ex: `-logger:packages\BCC-MSBuildLog.1.0.0\tools\net472\BCCMSBuildLog.dll;configuration=bcc-config.json`
+
 | Argument          | Description                                                       |
 | :---              | :---                                                              |
 | **configuration** | Path to configuration file                                        |
