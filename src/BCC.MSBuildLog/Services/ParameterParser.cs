@@ -70,6 +70,10 @@ namespace BCC.MSBuildLog.Services
                     {
                         parameters.ConfigurationFile = split[1];
                     }
+                    else if (key == "annotationcount")
+                    {
+                        parameters.AnnotationCount = int.Parse(split[1]);
+                    }
                     else
                     {
                         throw new ArgumentException($"Unknown key `{split[0]}`");
