@@ -26,10 +26,10 @@ On other CI build systems, the following arguments should be provided in the msb
 | **repo**          | Repository name                                   |
 | **hash**          | Hash of the current commit                        |
 
-# Configuration
+## Configuration
 The configuration file is a json document that allows customization of the Check Run output.
 
-## Example
+### Example
 
 Here we are taking `CS0219` which is normally a warning and forcing it to be reported as an error. If used in combination with branch protection settings, this could be used to prevent a Pull Request from being merged.
 
@@ -44,14 +44,14 @@ Here we are taking `CS0219` which is normally a warning and forcing it to be rep
 }
 ```
 
-## Schema
+### Schema
 
-### CheckRunConfiguration <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/CheckRunConfiguration.cs)</sup></sub>
+#### CheckRunConfiguration <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/CheckRunConfiguration.cs)</sup></sub>
 
 - rules (array[LogAnalyzerRule]) - Array of rules
 - name (string)
 
-### LogAnalyzerRule <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/LogAnalyzerRule.cs)</sup></sub>
+#### LogAnalyzerRule <sub><sup>[src](https://github.com/justaprogrammer/BCC-MSBuildLog/blob/master/src/BCC.MSBuildLog/Model/LogAnalyzerRule.cs)</sup></sub>
 
 - code (string, required) - The MSBuild warning/error code to match against
 - reportAs: asIs, ignore, notice, warning, error (enum, required)
