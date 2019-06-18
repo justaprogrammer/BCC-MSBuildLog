@@ -17,5 +17,6 @@ namespace BCC.MSBuildLog.Services.Build
         public abstract string GitHubOwner { get; }
         public abstract string CloneRoot { get; }
         public abstract string CommitHash { get; }
+        public abstract int? PullRequestNumber { get; }
     }
 }

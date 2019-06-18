@@ -29,18 +29,17 @@ namespace BCC.MSBuildLog
         public override void Initialize(IEventSource eventSource)
         {
             var environmentProvider = new EnvironmentProvider();
-            var fileSystem = new FileSystem();
 
             var baseUrl = environmentProvider.GetEnvironmentVariable("BCC_URL") ?? "https://buildcrosscheck.azurewebsites.net";
             var restClient = new RestClient(baseUrl);
-
-            var submissionService = new SubmissionService(fileSystem, restClient);
+            var submissionService = new SubmissionService(restClient);
 
             var buildServiceProvider = new BuildServiceProvider(environmentProvider);
             var buildService = buildServiceProvider.GetBuildService();
             var parameterParser = new ParameterParser(environmentProvider, buildService);
 
             var logDataBuilderFactory = new LogDataBuilderFactory();
+            var fileSystem = new FileSystem();
 
             Initialize(fileSystem, eventSource, environmentProvider, submissionService, parameterParser, logDataBuilderFactory);
         }
@@ -166,7 +165,7 @@ namespace BCC.MSBuildLog
 
                 var contents = createCheckRun.ToJson();
                 var bytes = Encoding.Unicode.GetBytes(contents);
-                submitSuccess = _submissionService.SubmitAsync(bytes, _parameters.Token, _parameters.Hash).Result;
+                submitSuccess = _submissionService.SubmitAsync(bytes, _parameters).Result;
             }
             catch (Exception exception)
             {

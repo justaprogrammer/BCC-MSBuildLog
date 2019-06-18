@@ -18,13 +18,13 @@ namespace BCC.MSBuildLog.Services.Build
 
         public override string GitHubRepo => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
-            .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries)
             .Skip(1)
             .First();
 
         public override string GitHubOwner => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
-            .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries)
             .First();
 
         public override string CloneRoot => Environment
@@ -32,5 +32,8 @@ namespace BCC.MSBuildLog.Services.Build
 
         public override string CommitHash => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_COMMIT");
+
+        public override int? PullRequestNumber =>
+            int.Parse(Environment.GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER"));
     }
 }

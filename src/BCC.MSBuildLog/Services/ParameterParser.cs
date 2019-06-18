@@ -30,6 +30,7 @@ namespace BCC.MSBuildLog.Services
                 parameters.Hash = _buildService.CommitHash;
                 parameters.Owner = _buildService.GitHubOwner;
                 parameters.Repo = _buildService.GitHubRepo;
+                parameters.PullRequestNumber = _buildService.PullRequestNumber;
             }
 
             parameters.Token = _environmentProvider.GetEnvironmentVariable("BCC_TOKEN");
@@ -73,6 +74,10 @@ namespace BCC.MSBuildLog.Services
                     else if (key == "annotationcount")
                     {
                         parameters.AnnotationCount = int.Parse(split[1]);
+                    }
+                    else if (key == "pullrequest")
+                    {
+                        parameters.PullRequestNumber = int.Parse(split[1]);
                     }
                     else
                     {

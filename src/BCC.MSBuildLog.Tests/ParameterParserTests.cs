@@ -61,6 +61,7 @@ namespace BCC.MSBuildLog.Tests
             var token = Faker.Random.String(10);
             var configuration = Faker.Random.String(10);
             var annotationCount = Faker.Random.Int(0);
+            var pullrequest = Faker.Random.Int(0);
 
             buildService.CloneRoot.Returns(cloneRoot);
             buildService.CommitHash.Returns(commitHash);
@@ -69,7 +70,7 @@ namespace BCC.MSBuildLog.Tests
             environmentProvider.GetEnvironmentVariable("BCC_TOKEN").Returns(token);
 
             var parameterParser = new ParameterParser(environmentProvider, buildService);
-            var parameters = parameterParser.Parse($"configuration={configuration};annotationcount={annotationCount}");
+            var parameters = parameterParser.Parse($"configuration={configuration};annotationcount={annotationCount};pullrequest={pullrequest}");
 
             parameters.Should().NotBeNull();
             parameters.CloneRoot.Should().Be(cloneRoot);
@@ -79,6 +80,7 @@ namespace BCC.MSBuildLog.Tests
             parameters.Token.Should().Be(token);
             parameters.ConfigurationFile.Should().Be(configuration);
             parameters.AnnotationCount.Should().Be(annotationCount);
+            parameters.PullRequestNumber.Should().Be(pullrequest);
         }
 
         [Fact]

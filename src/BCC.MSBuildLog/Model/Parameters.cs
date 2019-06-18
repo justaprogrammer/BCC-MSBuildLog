@@ -9,5 +9,6 @@
         public string Token { get; set; }
         public string ConfigurationFile { get; set; }
         public int AnnotationCount { get; set; } = 100;
+        public int? PullRequestNumber { get; set; }
     }
 }

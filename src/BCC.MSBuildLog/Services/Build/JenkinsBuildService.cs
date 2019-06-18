@@ -21,5 +21,7 @@ namespace BCC.MSBuildLog.Services.Build
         public override string CloneRoot => Environment.GetEnvironmentVariable("WORKSPACE");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("GIT_COMMIT");
+
+        public override int? PullRequestNumber => null;
     }
 }
