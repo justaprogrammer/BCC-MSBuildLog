@@ -141,18 +141,15 @@ namespace BCC.MSBuildLog.Services
                 }
             }
 
-            if (_annotations.Count < _parameters.AnnotationCount)
-            {
-                var annotation = CreateAnnotation(checkWarningLevel,
-                    CloneRoot,
-                    title,
-                    message,
-                    lineNumber,
-                    endLineNumber,
-                    filePath);
+            var annotation = CreateAnnotation(checkWarningLevel,
+                CloneRoot,
+                title,
+                message,
+                lineNumber,
+                endLineNumber,
+                filePath);
 
-                _annotations.Add(annotation);
-            }
+            _annotations.Add(annotation);
 
             var lineReference = lineNumber != endLineNumber ? $"L{lineNumber}-L{endLineNumber}" : $"L{lineNumber}";
 
