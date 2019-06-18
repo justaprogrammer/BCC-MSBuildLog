@@ -26,16 +26,15 @@ namespace BCC.MSBuildLog.Services
 
             var request = new RestRequest("api/checkrun/upload")
             {
-                AlwaysMultipartFormData = true,
-                RequestFormat = DataFormat.Json,
+                AlwaysMultipartFormData = true
             };
 
             Console.WriteLine($"Hash {parameters.Hash}");
             Console.WriteLine($"PullRequestNumber {parameters.PullRequestNumber}");
 
             request.AddHeader("Authorization", $"Bearer {parameters.Token}");
-            request.AddParameter("PullRequestNumber", parameters.PullRequestNumber.Value, ParameterType.RequestBody);
-            request.AddParameter("CommitSha", parameters.Hash, ParameterType.RequestBody);
+            request.AddParameter("PullRequestNumber", parameters.PullRequestNumber.Value, ParameterType.GetOrPost);
+            request.AddParameter("CommitSha", parameters.Hash, ParameterType.GetOrPost);
             request.AddFile("LogFile", bytes, "file.txt");
 
             var restResponse = await _restClient.ExecutePostTaskAsync(request)
