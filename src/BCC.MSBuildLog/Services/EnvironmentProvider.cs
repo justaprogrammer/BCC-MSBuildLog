@@ -17,6 +17,16 @@ namespace BCC.MSBuildLog.Services
             return Environment.GetEnvironmentVariable(name);
         }
 
+        public int? GetIntEnvironmentVariable(string name)
+        {
+            if (int.TryParse(GetEnvironmentVariable(name) ?? string.Empty, out var pr))
+            {
+                return pr;
+            }
+
+            return null;
+        }
+
         public void WriteLine(string line)
         {
             Console.WriteLine(line);

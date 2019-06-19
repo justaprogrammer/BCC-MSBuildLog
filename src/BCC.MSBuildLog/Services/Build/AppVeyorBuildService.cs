@@ -33,7 +33,17 @@ namespace BCC.MSBuildLog.Services.Build
         public override string CommitHash => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_COMMIT");
 
-        public override int? PullRequestNumber =>
-            int.Parse(Environment.GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER"));
+        public override int? PullRequestNumber
+        {
+            get
+            {
+                if (int.TryParse(Environment.GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER") ?? string.Empty, out var pr))
+                {
+                    return pr;
+                }
+
+                return null;
+            }
+        }
     }
 }

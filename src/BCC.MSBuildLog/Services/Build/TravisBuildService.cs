@@ -32,17 +32,6 @@ namespace BCC.MSBuildLog.Services.Build
 
         public override string CommitHash => Environment.GetEnvironmentVariable("TRAVIS_COMMIT");
 
-        public override int? PullRequestNumber
-        {
-            get
-            {
-                if (int.TryParse(Environment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST"), out var pr))
-                {
-                    return pr;
-                }
-
-                return null;
-            }
-        }
+        public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("TRAVIS_PULL_REQUEST");
     }
 }

@@ -81,6 +81,12 @@ namespace BCC.MSBuildLog
                 return;
             }
 
+            if (!_parameters.PullRequestNumber.HasValue)
+            {
+                _environmentProvider.WriteLine("BuildCrossCheck PullRequestNumber is not present");
+                return;
+            }
+
             _environmentProvider.WriteLine("BuildCrossCheck Enabled");
 
             _configuration = LoadCheckRunConfiguration(fileSystem, _parameters.ConfigurationFile);

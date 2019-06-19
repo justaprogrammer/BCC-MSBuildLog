@@ -22,6 +22,6 @@ namespace BCC.MSBuildLog.Services.Build
 
         public override string CommitHash => Environment.GetEnvironmentVariable("CIRCLE_SHA1");
 
-        public override int? PullRequestNumber => int.Parse(Environment.GetEnvironmentVariable("CIRCLE_PR_NUMBER"));
+        public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("CIRCLE_PR_NUMBER");
     }
 }
