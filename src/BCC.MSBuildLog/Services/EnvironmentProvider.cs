@@ -19,7 +19,8 @@ namespace BCC.MSBuildLog.Services
 
         public int? GetIntEnvironmentVariable(string name)
         {
-            if (int.TryParse(GetEnvironmentVariable(name) ?? string.Empty, out var pr))
+            var value = GetEnvironmentVariable(name);
+            if(!string.IsNullOrWhiteSpace(value) && int.TryParse(value, out var pr))
             {
                 return pr;
             }
