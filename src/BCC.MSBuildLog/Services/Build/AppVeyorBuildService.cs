@@ -31,7 +31,7 @@ namespace BCC.MSBuildLog.Services.Build
             .GetEnvironmentVariable("APPVEYOR_BUILD_FOLDER");
 
         public override string CommitHash => Environment
-            .GetEnvironmentVariable("APPVEYOR_REPO_COMMIT");
+            .GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_HEAD_COMMIT");
 
         public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER");
     }
