@@ -34,7 +34,7 @@ namespace BCC.MSBuildLog.Tests.Services
             Faker = new Faker();
         }
 
-        [Fact(Skip = "Broken")]
+        [Fact]
         public async Task ShouldSubmit()
         {
             var token = Faker.Random.String();
@@ -67,15 +67,15 @@ namespace BCC.MSBuildLog.Tests.Services
                     },
                     new Parameter
                     {
-                        Type = ParameterType.RequestBody,
-                        Name = "CommitSha",
-                        Value = headSha
+                        Type = ParameterType.GetOrPost,
+                        Name = "PullRequestNumber",
+                        Value = pullRequestNumber
                     },
                     new Parameter
                     {
-                        Type = ParameterType.RequestBody,
-                        Name = "PullRequestNumber",
-                        Value = pullRequestNumber
+                        Type = ParameterType.GetOrPost,
+                        Name = "CommitSha",
+                        Value = headSha
                     }
                 );
 
