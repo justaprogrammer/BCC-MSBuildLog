@@ -1,11 +1,15 @@
-<a name="unreleased"></a>
-## [Unreleased]
 
+<a name="v1.0.1"></a>
+## [v1.0.1] - 2019-09-05
 ### Bug Fixes
 - Not limiting the log data builder by the annotation count
 
 ### Features
 - Adding the pull request number to the submission
+
+### Pull Requests
+- Merge pull request [#34](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/34) from justaprogrammer/relevant-annotations
+- Merge pull request [#33](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/33) from justaprogrammer/documentation
 
 
 <a name="v1.0.0"></a>
@@ -197,7 +201,8 @@
 - Merge pull request [#2](https://github.com/justaprogrammer/BCC-MSBuildLog/issues/2) from justaprogrammer/fixes/pr-builds
 
 
-[Unreleased]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v1.0.1...HEAD
+[v1.0.1]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v1.0.0...v1.0.1
 [v1.0.0]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.9...v1.0.0
 [v0.1.9]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.8...v0.1.9
 [v0.1.8]: https://github.com/justaprogrammer/BCC-MSBuildLog/compare/v0.1.7...v0.1.8
