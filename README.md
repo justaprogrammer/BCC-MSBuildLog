@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/justaprogrammer/bcc-msbuildlog/branch/master/graph/badge.svg)](https://codecov.io/gh/justaprogrammer/bcc-msbuildlog)
 
 ## Overview
-BCC-MSBuildLog is a Windows tool to create data for [Build Cross Check](https://github.com/justaprogrammer/BuildCrossCheck) from [MSBuild Log](http://msbuildlog.com/) files.
+BCC-MSBuildLog is a Windows tool to create data for [Build Cross Check](https://github.com/justaprogrammer/BuildCrossCheck) as an MSBuild Logger.
 
 ## Documentation
 - [Documentation](docs/readme.md)
