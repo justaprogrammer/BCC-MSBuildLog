@@ -7,5 +7,6 @@
         string GitHubOwner { get; }
         string CloneRoot { get; }
         string CommitHash { get; }
+        int? PullRequestNumber { get; }
     }
 }

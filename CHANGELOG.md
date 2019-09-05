@@ -1,3 +1,12 @@
+<a name="unreleased"></a>
+## [Unreleased]
+
+### Bug Fixes
+- Not limiting the log data builder by the annotation count
+
+### Features
+- Adding the pull request number to the submission
+
 
 <a name="v1.0.0"></a>
 ## [v1.0.0] - 2019-06-17

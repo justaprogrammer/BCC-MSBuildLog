@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using BCC.MSBuildLog.Interfaces;
 
@@ -30,5 +31,7 @@ namespace BCC.MSBuildLog.Services.Build
         public override string CloneRoot => Environment.GetEnvironmentVariable("TRAVIS_BUILD_DIR");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("TRAVIS_COMMIT");
+
+        public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("TRAVIS_PULL_REQUEST");
     }
 }

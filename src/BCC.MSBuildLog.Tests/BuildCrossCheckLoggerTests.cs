@@ -89,7 +89,7 @@ namespace BCC.MSBuildLog.Tests
             eventSource.BuildFinished +=
                 Raise.Event<BuildFinishedEventHandler>(buildFinishedEventArgs);
 
-            submissionService.Received(1).SubmitAsync(Arg.Any<byte[]>(), Arg.Any<string>(), Arg.Any<string>());
+            submissionService.Received(1).SubmitAsync(Arg.Any<byte[]>(), Arg.Any<Parameters>());
         }
     }
 }

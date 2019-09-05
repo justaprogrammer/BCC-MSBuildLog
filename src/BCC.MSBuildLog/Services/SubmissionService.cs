@@ -1,45 +1,40 @@
 ﻿using System;
-using System.IO.Abstractions;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using BCC.MSBuildLog.Interfaces;
+using BCC.MSBuildLog.Model;
 using RestSharp;
 
 namespace BCC.MSBuildLog.Services
 {
     public class SubmissionService : ISubmissionService
     {
-        private readonly IFileSystem _fileSystem;
         private readonly IRestClient _restClient;
 
-        public SubmissionService(IFileSystem fileSystem, IRestClient restClient)
+        public SubmissionService(IRestClient restClient)
         {
             _restClient = restClient;
-            _fileSystem = fileSystem;
         }
 
-        public async Task<bool> SubmitAsync(string inputFile, string token, string headSha)
+        public async Task<bool> SubmitAsync(byte[] bytes, Parameters parameters)
         {
-            var exists = _fileSystem.File.Exists(inputFile);
-            if (!exists)
+            if (parameters.PullRequestNumber == null)
             {
-                throw new InvalidOperationException($"File `{inputFile}` does not exist.");
+                throw new InvalidOperationException("Missing PullRequestNumber");
             }
-            var readAllBytes = _fileSystem.File.ReadAllBytes(inputFile);
 
-            return await SubmitAsync(readAllBytes, token, headSha);
-        }
-
-        public async Task<bool> SubmitAsync(byte[] bytes, string token, string headSha)
-        {
             var request = new RestRequest("api/checkrun/upload")
             {
-                AlwaysMultipartFormData = true,
-                RequestFormat = DataFormat.Json,
+                AlwaysMultipartFormData = true
             };
 
-            request.AddHeader("Authorization", $"Bearer {token}");
-            request.AddParameter("CommitSha", headSha, ParameterType.RequestBody);
+            Console.WriteLine($"Hash {parameters.Hash}");
+            Console.WriteLine($"PullRequestNumber {parameters.PullRequestNumber}");
+
+            request.AddHeader("Authorization", $"Bearer {parameters.Token}");
+            request.AddParameter("PullRequestNumber", parameters.PullRequestNumber.Value, ParameterType.GetOrPost);
+            request.AddParameter("CommitSha", parameters.Hash, ParameterType.GetOrPost);
             request.AddFile("LogFile", bytes, "file.txt");
 
             var restResponse = await _restClient.ExecutePostTaskAsync(request)

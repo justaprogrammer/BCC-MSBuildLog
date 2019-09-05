@@ -21,5 +21,7 @@ namespace BCC.MSBuildLog.Services.Build
         public override string CloneRoot => Environment.GetEnvironmentVariable("CIRCLE_WORKING_DIRECTORY");
 
         public override string CommitHash => Environment.GetEnvironmentVariable("CIRCLE_SHA1");
+
+        public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("CIRCLE_PR_NUMBER");
     }
 }

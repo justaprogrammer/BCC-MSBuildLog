@@ -18,19 +18,21 @@ namespace BCC.MSBuildLog.Services.Build
 
         public override string GitHubRepo => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
-            .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries)
             .Skip(1)
             .First();
 
         public override string GitHubOwner => Environment
             .GetEnvironmentVariable("APPVEYOR_REPO_NAME")
-            .Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] {"/"}, StringSplitOptions.RemoveEmptyEntries)
             .First();
 
         public override string CloneRoot => Environment
             .GetEnvironmentVariable("APPVEYOR_BUILD_FOLDER");
 
         public override string CommitHash => Environment
-            .GetEnvironmentVariable("APPVEYOR_REPO_COMMIT");
+            .GetEnvironmentVariable("APPVEYOR_PULL_REQUEST_HEAD_COMMIT");
+
+        public override int? PullRequestNumber => Environment.GetIntEnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER");
     }
 }

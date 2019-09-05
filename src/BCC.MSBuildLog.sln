@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FFB46A17
 		..\appveyor.yml = ..\appveyor.yml
 		..\Build.fsx = ..\Build.fsx
 		..\codecov.yml = ..\codecov.yml
+		..\.chglog\config.yml = ..\.chglog\config.yml
 		..\GitVersion.yml = ..\GitVersion.yml
 		nuget.config = nuget.config
 		..\nuget\Package.nuspec = ..\nuget\Package.nuspec
